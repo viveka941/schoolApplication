@@ -4,12 +4,10 @@ const classSchema = mongoose.Schema(
   {
     name: {
       type: String, // 10-A
+      unique:true,
       required: true,
     },
-    section: {
-      type: String, // A
-      required: true,
-    },
+   
     student:[ {
       type: mongoose.Types.ObjectId,
       ref:"Student",
