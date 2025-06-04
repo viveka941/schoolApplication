@@ -11,10 +11,12 @@ export const addAttendence = async (req, res) => {
       });
     }
 
+    const date = new Date
     const newAtt = await Attendence.create({
       classId,
       studentId,
       status,
+      date:date
     });
 
     return res.status(403).json({

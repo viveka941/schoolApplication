@@ -1,15 +1,30 @@
-export const newExam = async(req,res)=>{
-  try {
-    const {name,classId,date,subject}=req.body
+import { Exam } from "../model/Exam.model.js";
 
-    if(!name||classId||!date||!subject){
-     
+export const newExam = async (req, res) => {
+  try {
+    const { name, classId, date, subject } = req.body;
+
+    if (!name || !classId || !date || !subject) {
       return res.status(403).json({
-        message: "requried fields is missing",
+        message: "Required fields are missing",
         success: false,
-       
       });
     }
+
+    const exam = new Exam({
+      name,
+      classId,
+      date: new Date(date), // Ensure it's in Date format
+      subject,
+    });
+
+    await exam.save();
+
+    return res.status(201).json({
+      message: "Exam created successfully",
+      success: true,
+      data: exam,
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({
@@ -18,4 +33,4 @@ export const newExam = async(req,res)=>{
       error: error.message,
     });
   }
-}
+};

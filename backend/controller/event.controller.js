@@ -2,9 +2,9 @@ import { Event } from "../model/Event.model.js";
 
 export const addEvent = async (req, res) => {
   try {
-    const { title, description, date, teacher } = req.body;
+    const { title, description, date, createdBy } = req.body;
 
-    if (!title || !description || !date || !teacher) {
+    if (!title || !description || !date || !createdBy) {
       return res.status(403).json({
         message: "required fields is missing",
         success: false,
@@ -14,7 +14,7 @@ export const addEvent = async (req, res) => {
       title,
       description,
       date,
-      teacher,
+      createdBy,
     });
     return res.status(200).json({
       message: "Successfull created user",
