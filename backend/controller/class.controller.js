@@ -29,6 +29,11 @@ export const newClass = async (req, res) => {
       Class: newClass,
     });
   } catch (error) {
-    console.log("server is not responding" + error);
+    console.error(error);
+    return res.status(500).json({
+      message: "Internal server error",
+      success: false,
+      error: error.message,
+    });
   }
 };

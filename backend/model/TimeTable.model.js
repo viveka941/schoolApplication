@@ -36,4 +36,4 @@ const timeTableSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-export const Class = mongoose.model("Class", classSchema);
+export const TimeTable = mongoose.model("TimeTable", timeTableSchema);
