@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate()
 
   return (
     <header className="flex items-center justify-between px-6 py-4 border-b shadow-sm bg-white relative z-20">
@@ -17,9 +18,12 @@ export default function Navbar() {
         <Link to="/compus">Campus</Link>
         <Link to="/contact">Contact</Link>
         <Link to="#">Blog ✶</Link>
-       
-        <Button className="bg-yellow-400 hover:bg-yellow-500 text-black rounded-full px-4">
-         Login
+
+        <Button
+          onClick={() => navigate("/login")}
+          className="bg-yellow-400 hover:bg-yellow-500 text-black rounded-full px-4"
+        >
+          Login
         </Button>
       </nav>
 
@@ -40,9 +44,12 @@ export default function Navbar() {
           <Link to="/compus">Campus</Link>
           <Link to="/contact">Contact</Link>
           <Link to="#">Blog ✶</Link>
-         
-          <Button className="bg-yellow-400 hover:bg-yellow-500 text-black rounded-full px-4">
-          Login
+
+          <Button
+            onClick={() => navigate("/login")}
+            className="bg-yellow-400 hover:bg-yellow-500 text-black rounded-full px-4"
+          >
+            Login
           </Button>
         </div>
       )}
