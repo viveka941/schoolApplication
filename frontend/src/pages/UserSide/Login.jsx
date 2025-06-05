@@ -15,7 +15,7 @@ function Login() {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
+    console.log("Submitted data:", data);
     setLoading(true);
     try {
       const res = await axios.post(
@@ -29,22 +29,26 @@ function Login() {
       );
 
       if (res.data.success) {
-        // Optional: Save user data or token
+        // Save user data
         localStorage.setItem("user", JSON.stringify(res.data.user));
+        const role = res.data.user.role;
 
         // Redirect based on role
-        switch (data.role) {
+        switch (role) {
           case "Student":
-            navigate("/student-dashboard");
+            navigate("/studentProfile");
             break;
           case "Teacher":
-            navigate("/teacher-dashboard");
+            navigate("/teacherProfile");
+            break;
+          case "Counsellor":
+            navigate("/cashier");
             break;
           case "Principal":
             navigate("/principal-dashboard");
             break;
           default:
-            alert("Please select a valid role");
+            alert("Role not recognized");
         }
 
         reset(); // Reset form after login
@@ -80,13 +84,11 @@ function Login() {
           <input
             type="email"
             id="email"
-            {...register("username", { required: "Email is required" })}
+            {...register("email", { required: "Email is required" })}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          {errors.username && (
-            <p className="text-red-600 text-sm mt-1">
-              {errors.username.message}
-            </p>
+          {errors.email && (
+            <p className="text-red-600 text-sm mt-1">{errors.email.message}</p>
           )}
         </div>
 
@@ -111,7 +113,7 @@ function Login() {
           )}
         </div>
 
-        {/* Role Selection */}
+        {/* Role */}
         <div className="mb-6">
           <label
             htmlFor="role"
@@ -128,6 +130,7 @@ function Login() {
             <option value="Student">Student</option>
             <option value="Teacher">Teacher</option>
             <option value="Principal">Principal</option>
+            <option value="Counsellor">Counsellor</option>
           </select>
           {errors.role && (
             <p className="text-red-600 text-sm mt-1">{errors.role.message}</p>

@@ -10,6 +10,8 @@ import Register from "./pages/UserSide/Login";
 import Cashier from "./pages/UserSide/SchoolManagement/Cashier";
 import AllTeachers from "./pages/UserSide/SchoolManagement/AllTeacher";
 import ClassWiseData from "./pages/UserSide/SchoolManagement/ClassWiseData";
+import TeacherProfile from "./pages/UserSide/SchoolManagement/TeacherProfile";
+import StudentDashboard from "./pages/UserSide/SchoolManagement/StudentDashboard";
 
 function App() {
   const appRoute = createBrowserRouter([
@@ -21,6 +23,8 @@ function App() {
     { path: "/cashier", element: <Cashier /> },
     { path: "/allTeacher", element: <AllTeachers /> },
     { path: "/ClassWiseData",element:<ClassWiseData/> },
+    {path:"/teacherProfile",element:<TeacherProfile/>},
+    {path:"/studentProfile",element:<StudentDashboard/>}
   ]);
 
   return (

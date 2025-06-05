@@ -42,7 +42,7 @@ export const userLogin = async (req, res) => {
     }
     const existingUser = await User.findOne({ email });
     if (!existingUser) {
-      return res.status(403).json({
+      return res.status(404).json({
         message: "user is not existing",
         success: false,
       });
@@ -55,7 +55,7 @@ export const userLogin = async (req, res) => {
       });
     }
 
-    return res.status(403).json({
+    return res.status(200).json({
       message: "successfull login user",
       success: true,
       user: existingUser,
