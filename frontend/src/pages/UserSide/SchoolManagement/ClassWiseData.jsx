@@ -1,98 +1,63 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 function ClassWiseData() {
-  // Sample data for multiple classes
-  const classData = {
-    "Class 5": [
-      {
-        id: 1,
-        name: "Ram Sharma",
-        roll: 15,
-        phone: "9876543210",
-        email: "ram.sharma@school.edu",
-        attendance: "95%",
-      },
-      {
-        id: 2,
-        name: "Priya Patel",
-        roll: 22,
-        phone: "9876543211",
-        email: "priya.patel@school.edu",
-        attendance: "92%",
-      },
-      {
-        id: 3,
-        name: "Vikram Singh",
-        roll: 8,
-        phone: "9876543212",
-        email: "vikram.singh@school.edu",
-        attendance: "89%",
-      },
-      {
-        id: 4,
-        name: "Sunita Reddy",
-        roll: 30,
-        phone: "9876543213",
-        email: "sunita.reddy@school.edu",
-        attendance: "97%",
-      },
-    ],
-    "Class 6": [
-      {
-        id: 1,
-        name: "Amit Kumar",
-        roll: 12,
-        phone: "9876543220",
-        email: "amit.kumar@school.edu",
-        attendance: "91%",
-      },
-      {
-        id: 2,
-        name: "Neha Gupta",
-        roll: 5,
-        phone: "9876543221",
-        email: "neha.gupta@school.edu",
-        attendance: "94%",
-      },
-    ],
-    "Class 7": [
-      {
-        id: 1,
-        name: "Raj Mehta",
-        roll: 18,
-        phone: "9876543230",
-        email: "raj.mehta@school.edu",
-        attendance: "90%",
-      },
-      {
-        id: 2,
-        name: "Sonia Verma",
-        roll: 7,
-        phone: "9876543231",
-        email: "sonia.verma@school.edu",
-        attendance: "93%",
-      },
-      {
-        id: 3,
-        name: "Arjun Malhotra",
-        roll: 25,
-        phone: "9876543232",
-        email: "arjun.malhotra@school.edu",
-        attendance: "88%",
-      },
-    ],
-  };
-
-  const [selectedClass, setSelectedClass] = useState("Class 5");
+  const [classData, setAllStData] = useState({});
+  const [selectedClass, setSelectedClass] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Filter students based on search term
-  const filteredStudents = classData[selectedClass].filter(
-    (student) =>
-      student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.roll.toString().includes(searchTerm) ||
-      student.phone.includes(searchTerm)
-  );
+  useEffect(() => {
+    async function AllStudentData() {
+      try {
+        const res = await axios.get(
+          "http://localhost:5000/api/student/allStudent"
+        );
+        const students = res.data.list;
+
+        // Grouping students by class name
+        const grouped = students.reduce((acc, student) => {
+          const className = student.classId.name;
+
+          if (!acc[className]) {
+            acc[className] = [];
+          }
+
+          acc[className].push({
+            id: student._id,
+            name: student.userId.name,
+            email: student.userId.email,
+            phone: student.phone,
+            roll: student._id.slice(-4), // Temporary roll
+            attendance: `${Math.floor(Math.random() * 100)}%`, // Temporary data
+          });
+
+          return acc;
+        }, {});
+
+        setAllStData(grouped);
+      } catch (error) {
+        console.log("Server is not responding: " + error);
+      }
+    }
+
+    AllStudentData();
+  }, []);
+
+  // Set the default selected class when data is loaded
+  useEffect(() => {
+    const classes = Object.keys(classData);
+    if (classes.length > 0 && !selectedClass) {
+      setSelectedClass(classes[0]);
+    }
+  }, [classData]);
+
+  const filteredStudents =
+    classData[selectedClass]?.filter(
+      (student) =>
+        student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        student.roll.toString().includes(searchTerm) ||
+        student.phone.includes(searchTerm)
+    ) || [];
 
   return (
     <div className="p-6">
@@ -144,40 +109,22 @@ function ClassWiseData() {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Roll No.
               </th>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Student Name
               </th>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Contact
               </th>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Email
               </th>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Attendance
               </th>
-              <th
-                scope="col"
-                className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
+              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Actions
               </th>
             </tr>
@@ -249,8 +196,8 @@ function ClassWiseData() {
 
       <div className="mt-6 flex items-center justify-between">
         <div className="text-sm text-gray-500">
-          Showing {filteredStudents.length} of {classData[selectedClass].length}{" "}
-          students in {selectedClass}
+          Showing {filteredStudents.length} of{" "}
+          {classData[selectedClass]?.length || 0} students in {selectedClass}
         </div>
 
         <div className="flex space-x-2">

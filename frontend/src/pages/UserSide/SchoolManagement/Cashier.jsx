@@ -220,13 +220,13 @@ const Cashier = memo(() => {
             ))}
           </div>
 
-          <button className="mt-6 w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition">
-            Add Staff
-          </button>
           <button
             onClick={() => navigate("/addUser")}
             className="mt-6 w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition"
           >
+            Add Staff
+          </button>
+          <button className="mt-6 w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition">
             All Staff
           </button>
         </div>

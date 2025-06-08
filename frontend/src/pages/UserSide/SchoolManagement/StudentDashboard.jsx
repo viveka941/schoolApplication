@@ -1,11 +1,13 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
+import { useLocation, useParams } from "react-router-dom";
 
 function StudentDashboard() {
   // Sample data
   const student = {
     name: "Raj Sharma",
     grade: "Grade 10",
-    studentId: "STU-2023-105",
+    studentId: "STU-2023-105",  
     attendance: "95%",
     overallGrade: "A-",
     nextClass: "Mathematics",
@@ -101,6 +103,21 @@ function StudentDashboard() {
     { id: 4, action: "Downloaded Physics Material", time: "2 days ago" },
   ];
 
+  useEffect(()=>{
+    async function Student() {
+      try {
+        const res = await axios.get("http:/localhost:5000/api/student/")
+      } catch (error) {
+        
+      }
+    }
+    Student()
+  },[])
+  const location = useLocation()
+  const StData = location.state?.allData ||[]
+  
+
+ 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
@@ -110,12 +127,12 @@ function StudentDashboard() {
             <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
               Student Dashboard
             </h1>
-            <p className="text-gray-600">Welcome back, {student.name}</p>
+            <p className="text-gray-600">Welcome back, {StData.name}</p>
           </div>
           <div className="mt-4 md:mt-0 bg-white rounded-lg shadow-sm p-4 flex items-center">
             <div className="bg-gray-200 border-2 border-dashed rounded-full w-16 h-16" />
             <div className="ml-4">
-              <div className="font-medium">{student.name}</div>
+              <div className="font-medium">{StData.name}</div>
               <div className="text-sm text-gray-600">
                 {student.grade} | {student.studentId}
               </div>

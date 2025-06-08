@@ -33,10 +33,13 @@ function Login() {
         localStorage.setItem("user", JSON.stringify(res.data.user));
         const role = res.data.user.role;
 
+        console.log(res.data.user)
+        
+
         // Redirect based on role
         switch (role) {
           case "Student":
-            navigate("/studentProfile");
+            navigate("/studentProfile",{state:{allData:res.data.user}});
             break;
           case "Teacher":
             navigate("/teacherProfile");

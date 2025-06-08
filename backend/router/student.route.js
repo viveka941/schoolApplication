@@ -1,8 +1,10 @@
 import express from "express";
-import { addStudent } from "../controller/student.controller.js";
+import { addStudent, allStudent, loginStudent } from "../controller/student.controller.js";
 
 const router = express.Router();
 
 router.route("/addStudnet").post(addStudent);
+router.route("/allStudent").get(allStudent)
+router.route("/Student/:id").post(loginStudent);
 
 export default router;
