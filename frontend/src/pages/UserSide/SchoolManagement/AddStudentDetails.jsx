@@ -1,6 +1,6 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useEffect, useId, useState } from "react";
+import { set, useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 
 function AddStudentDetails() {
@@ -11,21 +11,32 @@ function AddStudentDetails() {
     formState: { errors },
   } = useForm();
 
-  const [allClass,setAllClass]=useState()
+  const [allClass,setAllClass]=useState([])
  useEffect(()=>{
   const getAllClass = async () => {
     try {
-      const res = await axios.get("http:")
-    } catch (error) {}
+      const res = await axios.get("http://localhost:5000/api/class/allClass");
+      setAllClass(res.data.allClass);
+    } catch (error) 
+    {
+      console.log("server is not responding "+ error)
+    }
   };
   getAllClass()
  },[])
   const onSubmit = async(data) => {
     console.log({ ...data, userId }); // Include userId with form data
     try {
-      const res = await axios.post("http://localhost:5000/")
+      const res = await axios.post(
+        "http://localhost:5000/api/student/addStudnet",{...data,userId},{
+          headers:{
+            "Content-Type": "application/json"
+          }
+        }
+      );
+      alert("succesfull add new student")
     } catch (error) {
-      
+      console.log("Server is not responding "+ error)
     }
   };
 
@@ -96,6 +107,29 @@ function AddStudentDetails() {
           </select>
           {errors.gender && (
             <p className="text-red-500 text-sm mt-1">{errors.gender.message}</p>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+            class
+          </label>
+          <select
+            {...register("classId", { required: "Student class is required" })}
+            className="mt-1 block w-full border rounded-md px-3 py-2 shadow-sm focus:ring-blue-300 focus:border-blue-400"
+          >
+            <option value="">Select class</option>
+            {allClass.map((data) => (
+              <option key={data._id} value={data._id}>
+                {data.name}
+              </option>
+            ))}
+          </select>
+
+          {errors.classId && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.classId.message}
+            </p>
           )}
         </div>
 

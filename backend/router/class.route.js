@@ -3,7 +3,7 @@ import { getAllClass, newClass } from "../controller/class.controller.js";
 
 const router = express.Router();
 router.route("/addClass").post(newClass);
-router.route("/allClass").post(getAllClass)
+router.route("/allClass").get(getAllClass)
 
 
 export default router;

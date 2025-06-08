@@ -84,7 +84,6 @@ const Cashier = memo(() => {
         </div>
       </div>
 
-      <button onClick={()=>navigate("/addUser")} className="border-2 rounded-2xl p-2 m-1  hover:backdrop-brightness-75">Add User</button>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Teachers Section */}
         <div className="lg:col-span-1 bg-white p-6 rounded-xl shadow-md">
@@ -128,7 +127,7 @@ const Cashier = memo(() => {
             All Teacher
           </button>
           <button
-            onClick={() => navigate("/addTeacher")}
+            onClick={() => navigate("/addUser")}
             className="mt-6 w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition"
           >
             Add Teacher
@@ -175,7 +174,10 @@ const Cashier = memo(() => {
           <button className="mt-6 w-full py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition">
             All Student
           </button>
-          <button className="mt-6 w-full py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition">
+          <button
+            onClick={() => navigate("/addUser")}
+            className="mt-6 w-full py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition"
+          >
             Add Student
           </button>
         </div>
@@ -221,7 +223,10 @@ const Cashier = memo(() => {
           <button className="mt-6 w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition">
             Add Staff
           </button>
-          <button className="mt-6 w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition">
+          <button
+            onClick={() => navigate("/addUser")}
+            className="mt-6 w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition"
+          >
             All Staff
           </button>
         </div>

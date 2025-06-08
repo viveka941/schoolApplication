@@ -23,12 +23,12 @@ export const addStudent = async (req, res) => {
       !motherName ||
       !address
     ) {
-      return res.status(403).json({
+      return res.status(404).json({
         message: "required fields is missing",
         success: false,
       });
     }
-    const existingSt = await Student.findById({ userId });
+    const existingSt = await Student.findById(userId );
 
     if (existingSt) {
       return res.status(203).json({
