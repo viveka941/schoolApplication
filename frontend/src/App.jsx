@@ -12,6 +12,8 @@ import AllTeachers from "./pages/UserSide/SchoolManagement/AllTeacher";
 import ClassWiseData from "./pages/UserSide/SchoolManagement/ClassWiseData";
 import TeacherProfile from "./pages/UserSide/SchoolManagement/TeacherProfile";
 import StudentDashboard from "./pages/UserSide/SchoolManagement/StudentDashboard";
+import RegisterUser from "./pages/UserSide/SchoolManagement/RegisterUser";
+import AddStudentDetails from "./pages/UserSide/SchoolManagement/AddStudentDetails";
 
 function App() {
   const appRoute = createBrowserRouter([
@@ -23,6 +25,8 @@ function App() {
     { path: "/cashier", element: <Cashier /> },
     { path: "/allTeacher", element: <AllTeachers /> },
     { path: "/ClassWiseData",element:<ClassWiseData/> },
+    {path:"/addUser",element:<RegisterUser/>},
+    {path:"/addStudentDetails/:userId" ,element:<AddStudentDetails/>},
     {path:"/teacherProfile",element:<TeacherProfile/>},
     {path:"/studentProfile",element:<StudentDashboard/>}
   ]);

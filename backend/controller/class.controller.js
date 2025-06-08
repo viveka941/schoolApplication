@@ -37,3 +37,17 @@ export const newClass = async (req, res) => {
     });
   }
 };
+
+export const getAllClass = async(req,res)=>{
+  try {
+    const getAllClass = await Class.find({})
+
+    return res.status(200).json({
+      message:"all class fetch",
+      success: true,
+      allClass: getAllClass
+    })
+  } catch (error) {
+    
+  }
+}

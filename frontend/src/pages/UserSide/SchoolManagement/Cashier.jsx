@@ -61,29 +61,30 @@ const Cashier = memo(() => {
         <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-blue-500">
           <h3 className="text-gray-500 text-sm font-medium">Total Fees</h3>
           <p className="text-2xl font-bold mt-2">
-            ${schoolData.financials.totalFees.toLocaleString()}
+            ₹{schoolData.financials.totalFees.toLocaleString()}
           </p>
         </div>
         <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500">
           <h3 className="text-gray-500 text-sm font-medium">Collected</h3>
           <p className="text-2xl font-bold mt-2">
-            ${schoolData.financials.collected.toLocaleString()}
+            ₹{schoolData.financials.collected.toLocaleString()}
           </p>
         </div>
         <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-yellow-500">
           <h3 className="text-gray-500 text-sm font-medium">Pending</h3>
           <p className="text-2xl font-bold mt-2">
-            ${schoolData.financials.pending.toLocaleString()}
+            ₹{schoolData.financials.pending.toLocaleString()}
           </p>
         </div>
         <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-red-500">
           <h3 className="text-gray-500 text-sm font-medium">Overdue</h3>
           <p className="text-2xl font-bold mt-2">
-            ${schoolData.financials.overdue.toLocaleString()}
+            ₹{schoolData.financials.overdue.toLocaleString()}
           </p>
         </div>
       </div>
 
+      <button onClick={()=>navigate("/addUser")} className="border-2 rounded-2xl p-2 m-1  hover:backdrop-brightness-75">Add User</button>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Teachers Section */}
         <div className="lg:col-span-1 bg-white p-6 rounded-xl shadow-md">
@@ -126,7 +127,10 @@ const Cashier = memo(() => {
           <button className="mt-6 w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">
             All Teacher
           </button>
-          <button className="mt-6 w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">
+          <button
+            onClick={() => navigate("/addTeacher")}
+            className="mt-6 w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition"
+          >
             Add Teacher
           </button>
         </div>
