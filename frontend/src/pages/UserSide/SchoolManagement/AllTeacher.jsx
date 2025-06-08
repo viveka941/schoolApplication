@@ -1,85 +1,35 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 export default function AllTeachers() {
-  const teachers = [
-    {
-      id: 1,
-      name: "Amandeep Singh",
-      subject: "Mathematics",
-      grade: "Grade 10",
-      phone: "9876543321",
-      contact: "amandeep@school.edu",
-    },
-    {
-      id: 2,
-      name: "Priya Sharma",
-      subject: "Physics",
-      grade: "Grade 9-10",
-      phone: "9876543322",
-      contact: "priya@school.edu",
-    },
-    {
-      id: 3,
-      name: "Rajiv Mehta",
-      subject: "Computer Science",
-      grade: "Grade 11-12",
-      phone: "9876543323",
-      contact: "rajiv@school.edu",
-    },
-    {
-      id: 4,
-      name: "Sunita Patel",
-      subject: "English Literature",
-      grade: "Grade 8-9",
-      phone: "9876543324",
-      contact: "sunita@school.edu",
-    },
-    {
-      id: 5,
-      name: "Vikram Joshi",
-      subject: "Chemistry",
-      grade: "Grade 11",
-      phone: "9876543325",
-      contact: "vikram@school.edu",
-    },
-    {
-      id: 6,
-      name: "Anjali Verma",
-      subject: "Biology",
-      grade: "Grade 10-11",
-      phone: "9876543326",
-      contact: "anjali@school.edu",
-    },
-    {
-      id: 7,
-      name: "Rahul Desai",
-      subject: "History",
-      grade: "Grade 9",
-      phone: "9876543327",
-      contact: "rahul@school.edu",
-    },
-    {
-      id: 8,
-      name: "Neha Kapoor",
-      subject: "Mathematics",
-      grade: "Grade 8",
-      phone: "9876543328",
-      contact: "neha@school.edu",
-    },
-  ];
+  const [teachers, setTeacher] = useState([]);
+  const [selectedSubject, setSelectedSubject] = useState("All Subjects");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    async function allTeacherList() {
+      try {
+        const res = await axios.get(
+          "http://localhost:5000/api/teacher/allTeacher"
+        );
+        setTeacher(res.data.list); // <-- FIXED: correctly set teacher data
+        console.log(res.data.list);
+      } catch (error) {
+        console.log("server is not responding " + error);
+      }
+    }
+    allTeacherList();
+  }, []);
 
   // Get unique subjects for filter dropdown
   const subjects = [...new Set(teachers.map((teacher) => teacher.subject))];
 
-  const [selectedSubject, setSelectedSubject] = useState("All Subjects");
-  const [searchTerm, setSearchTerm] = useState("");
-
   // Filter teachers based on search term and selected subject
   const filteredTeachers = teachers.filter((teacher) => {
     const matchesSearch =
-      teacher.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      teacher.phone.includes(searchTerm) ||
-      teacher.id.toString().includes(searchTerm);
+      teacher.userId?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      teacher.userId?.phone?.includes(searchTerm) ||
+      teacher._id.toString().includes(searchTerm);
 
     const matchesSubject =
       selectedSubject === "All Subjects" || teacher.subject === selectedSubject;
@@ -178,16 +128,16 @@ export default function AllTeachers() {
           <tbody className="bg-white divide-y divide-gray-200">
             {filteredTeachers.length > 0 ? (
               filteredTeachers.map((teacher) => (
-                <tr key={teacher.id} className="hover:bg-gray-50">
+                <tr key={teacher._id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {teacher.id}
+                    {teacher._id.toString().slice(-4)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
                       <div className="bg-gray-200 border-2 border-dashed rounded-xl w-10 h-10" />
                       <div className="ml-4">
                         <div className="text-sm font-medium text-gray-900">
-                          {teacher.name}
+                          {teacher.userId?.name || "N/A"}
                         </div>
                       </div>
                     </div>
@@ -198,13 +148,15 @@ export default function AllTeachers() {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {teacher.grade}
+                    {teacher.classId?.name || "N/A"}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {teacher.phone}
+                    {teacher?.phone || "N/A"}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-500 hover:underline">
-                    <a href={`mailto:${teacher.contact}`}>{teacher.contact}</a>
+                    <a href={`mailto:${teacher.userId?.email || ""}`}>
+                      {teacher.userId?.email || "N/A"}
+                    </a>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <div className="flex space-x-2">

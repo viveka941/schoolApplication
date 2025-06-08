@@ -32,7 +32,10 @@ function RegisterUser() {
             navigate(`/addStudentDetails/${userId}`);
             break;
           case "Teacher":
-            navigate("/teacherDetails");
+            navigate(`/addTeacherDetails/${userId}`);
+            break;
+          case "Staff":
+            navigate(`/addStaffDetails/${userId}`);
             break;
 
           default:

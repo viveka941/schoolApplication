@@ -14,6 +14,7 @@ import TeacherProfile from "./pages/UserSide/SchoolManagement/TeacherProfile";
 import StudentDashboard from "./pages/UserSide/SchoolManagement/StudentDashboard";
 import RegisterUser from "./pages/UserSide/SchoolManagement/RegisterUser";
 import AddStudentDetails from "./pages/UserSide/SchoolManagement/AddStudentDetails";
+import AddTeacher from "./pages/UserSide/SchoolManagement/AddTeacher";
 
 function App() {
   const appRoute = createBrowserRouter([
@@ -27,6 +28,8 @@ function App() {
     { path: "/ClassWiseData",element:<ClassWiseData/> },
     {path:"/addUser",element:<RegisterUser/>},
     {path:"/addStudentDetails/:userId" ,element:<AddStudentDetails/>},
+    {path:"/addTeacherDetails/:userId",element:<AddTeacher/>},
+    {path:"/addStaffDetails/:userId",element:<AddStudentDetails/>},
     {path:"/teacherProfile",element:<TeacherProfile/>},
     {path:"/studentProfile",element:<StudentDashboard/>}
   ]);

@@ -1,10 +1,9 @@
-import { hash } from "bcrypt";
 import { Teacher } from "../model/Teacher.model.js";
 
 export const addTeacher = async (req, res) => {
   try {
-    const { userId, subject, classId, salary } = req.body;
-    if (!userId || !subject || !classId || !salary) {
+    const { userId, subject, phone, classId, salary } = req.body;
+    if (!userId || !subject || !classId || !phone || !salary) {
       return res.status(403).json({
         message: "required fields is missing",
         success: false,
@@ -22,6 +21,7 @@ export const addTeacher = async (req, res) => {
     const newTeacher = await Teacher.create({
       userId,
       subject,
+      phone,
       classId,
       salary,
       hireDate: currentDate,
@@ -40,7 +40,6 @@ export const addTeacher = async (req, res) => {
     });
   }
 };
-
 
 export const loginTeacher = async (req, res) => {
   try {
@@ -95,3 +94,23 @@ export const loginTeacher = async (req, res) => {
   }
 };
 
+export const getAllTeacher = async (req, res) => {
+  try {
+    const allTeacher = await Teacher.find().populate(
+      "userId",
+      "name email phone"
+    ) .populate("classId", "name"); 
+
+    return res.status(200).json({
+      message: "successfull fetch all Teacher list",
+      success: true,
+      list: allTeacher,
+    });
+  } catch (error) {
+    console.log("Server error:", error);
+    return res.status(500).json({
+      message: "Server error",
+      success: false,
+    });
+  }
+};

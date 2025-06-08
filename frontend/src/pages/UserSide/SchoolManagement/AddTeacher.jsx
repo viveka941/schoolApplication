@@ -1,46 +1,163 @@
-import React from "react";
-import { useForm } from "react-hook-form";
+import axios from "axios";
+import React, { useEffect, useId, useState } from "react";
+import { set, useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
 function AddTeacher() {
+  const { userId } = useParams();
   const {
     register,
     handleSubmit,
-    fromState: { errors },
+    formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const [allClass,setAllClass]=useState([])
+ useEffect(()=>{
+  const getAllClass = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/class/allClass");
+      setAllClass(res.data.allClass);
+    } catch (error) 
+    {
+      console.log("server is not responding "+ error)
+    }
+  };
+  getAllClass()
+ },[])
+  const onSubmit = async(data) => {
+    console.log({ ...data, userId }); // Include userId with form data
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/teacher/addTeacher",
+        { ...data, userId },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      alert("succesfull add new Teacher")
+    } catch (error) {
+      console.log("Server is not responding "+ error)
+    }
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label htmlFor="Name">Name</label>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="bg-white shadow-md rounded-xl p-8 w-full max-w-lg"
+      >
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
+          Add Teacher Details
+        </h2>
+
+        {/* Phone */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+            Phone
+          </label>
           <input
             type="text"
-            {...register("name", { required: "teacher name is required" })}
+            {...register("phone", {
+              required: "Student phone number is required",
+              minLength: {
+                value: 10,
+                message: "minimum 10 digit number",
+              },
+              maxLength: {
+                value: 10,
+                message: "minimum 10 digit number",
+              },
+            })}
+            className="mt-1 block w-full border rounded-md px-3 py-2 shadow-sm focus:ring-blue-300 focus:border-blue-400"
           />
-          {errors.name && <p className="text-red-700">{errors.name.message}</p>}
-        </div>
-        <div>
-          <label htmlFor="Email">Email</label>
-          <input
-            type="email"
-            {...register("email", { required: "teacher email is required" })}
-          />
-          {errors.email && (
-            <p className="text-red-700">{errors.email.message}</p>
+          {errors.phone && (
+            <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
           )}
         </div>
-        <div>
-          <label htmlFor="Name">Name</label>
-          <input
-            type="text"
-            {...register("name", { required: "teacher name is required" })}
-          />
-          {errors.name && <p className="text-red-700">{errors.name.message}</p>}
+
+        {/* Gender */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+            subject
+          </label>
+          <select
+            {...register("subject", {
+              required: "Teaching subject is required",
+            })}
+            className="mt-1 block w-full border rounded-md px-3 py-2 shadow-sm focus:ring-blue-300 focus:border-blue-400"
+          >
+            <option value="">Select subject</option>
+            <option value="Math">Math</option>
+            <option value="Hisotry">Hisotry</option>
+            <option value="Science">Science</option>
+            <option value="English">English</option>
+            <option value="Hindi">Hindi</option>
+            <option value="Art">Art</option>
+            <option value="P.T">P.T</option>
+
+          </select>
+          {errors.subject && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.subject.message}
+            </p>
+          )}
         </div>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+            class
+          </label>
+          <select
+            {...register("classId", { required: "Student class is required" })}
+            className="mt-1 block w-full border rounded-md px-3 py-2 shadow-sm focus:ring-blue-300 focus:border-blue-400"
+          >
+            <option value="">Select class</option>
+            {allClass.map((data) => (
+              <option key={data._id} value={data._id}>
+                {data.name}
+              </option>
+            ))}
+          </select>
+
+          {errors.classId && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.classId.message}
+            </p>
+          )}
+        </div>
+
+        {/* Father's Name */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+           Salary
+          </label>
+          <input
+            type="number"
+            {...register("salary", {
+              required: "Student father's name is required",
+            })}
+            className="mt-1 block w-full border rounded-md px-3 py-2 shadow-sm focus:ring-blue-300 focus:border-blue-400"
+          />
+          {errors.salary && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.salary.message}
+            </p>
+          )}
+        </div>
+
+       
+
+        
+
+        {/* Submit */}
+        <button
+          type="submit"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300"
+        >
+          Submit Details
+        </button>
       </form>
     </div>
   );
