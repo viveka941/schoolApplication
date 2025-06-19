@@ -3,8 +3,10 @@ import { useAllData } from "@/AllData/AllData";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 function TimeTableForm() {
+  const navigate = useNavigate()
   const { allClass, allTeacher } = useAllData();
   const {
     register,
@@ -90,6 +92,7 @@ function TimeTableForm() {
       setSlots([{ startTime: "", endTime: "", subject: "", teacher: "" }]);
       setSlotErrors([]);
       alert("Timetable created successfully!");
+      navigate("/showtimeTable");
     } catch (error) {
       console.error("Submission failed:", error.message);
       alert("Submission failed: " + error.message);

@@ -15,7 +15,7 @@ function Login() {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log("Submitted data:", data);
+   
     setLoading(true);
     try {
       const res = await axios.post(
@@ -32,17 +32,19 @@ function Login() {
         // Save user data
         localStorage.setItem("user", JSON.stringify(res.data.user));
         const role = res.data.user.role;
+        const id  = res.data.user._id
+       
 
-        console.log(res.data.user)
-        
+
+    
 
         // Redirect based on role
         switch (role) {
           case "Student":
-            navigate("/studentProfile",{state:{allData:res.data.user}});
+            navigate(`/studentProfile/${id}`,{state:{allData:res.data.user}});
             break;
           case "Teacher":
-            navigate("/teacherProfile",{state:{allData:res.data.user}});
+            navigate(`/teacherProfile/${id}`,{state:{allData:res.data.user}});
             break;
           case "Counsellor":
             navigate("/cashier");

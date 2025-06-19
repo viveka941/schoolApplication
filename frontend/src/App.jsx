@@ -34,8 +34,8 @@ function App() {
     {path:"/addStudentDetails/:userId" ,element:<AddStudentDetails/>},
     {path:"/addTeacherDetails/:userId",element:<AddTeacher/>},
     {path:"/addStaffDetails/:userId",element:<AddStudentDetails/>},
-    {path:"/teacherProfile",element:<TeacherProfile/>},
-    {path:"/studentProfile",element:<StudentDashboard/>},
+    {path:"/teacherProfile/:id",element:<TeacherProfile/>},
+    {path:"/studentProfile/:id",element:<StudentDashboard/>},
     {path:"/paragliding",element: <Paragliding/>},
     {path:"/addTimeTable",element:<TimeTableForm/>},
     {path:"/showtimeTable",element:<ShowTimeTable/>}

@@ -1,10 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useId, useState } from "react";
 import { set, useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function AddTeacher() {
   const { userId } = useParams();
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -37,6 +38,7 @@ function AddTeacher() {
         }
       );
       alert("succesfull add new Teacher")
+      navigate("/allTeacher");
     } catch (error) {
       console.log("Server is not responding "+ error)
     }

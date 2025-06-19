@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function ClassWiseData() {
+  const navigate =useNavigate()
   const [classData, setAllStData] = useState({});
   const [selectedClass, setSelectedClass] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -132,7 +134,11 @@ function ClassWiseData() {
           <tbody className="bg-white divide-y divide-gray-200">
             {filteredStudents.length > 0 ? (
               filteredStudents.map((student) => (
-                <tr key={student.id} className="hover:bg-gray-50">
+                <tr
+                  key={student.id}
+                  onClick={() => navigate(`/studentProfile/${student.id}`)}
+                  className="hover:bg-gray-50"
+                >
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">
                       {student.roll}

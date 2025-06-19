@@ -1,5 +1,6 @@
+import { useAllData } from "@/AllData/AllData";
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 function TeacherProfile() {
   // Sample teacher data
@@ -17,6 +18,7 @@ function TeacherProfile() {
       "B.Ed. in Secondary Education",
       "Certified Advanced Mathematics Instructor",
     ],
+    
     schedule: [
       {
         day: "Monday",
@@ -52,9 +54,46 @@ function TeacherProfile() {
   };
 
   const location = useLocation()
+  const {id} = useParams()
   const teacherData = location.state?.allData || []
-  console.log(teacherData.name)
+  console.log(teacherData)
+  const { allTimeTable } = useAllData();
+  console.log(allTimeTable);
 
+  const matchedSlots = [];
+
+  allTimeTable.forEach((timeTable) => {
+    timeTable.slots.forEach((slot) => {
+      if (slot?.teacher?.userId?.name === teacherData.name) {
+        matchedSlots.push({
+          ...slot,
+          day: timeTable.day,
+          classId: timeTable.classId?.name || "Unknown Class",
+        });
+      }
+    });
+  });
+
+ 
+  const groupedByDay = {};
+
+  matchedSlots.forEach((slot) => {
+    if (!groupedByDay[slot.day]) {
+      groupedByDay[slot.day] = [];
+    }
+    groupedByDay[slot.day].push(slot);
+  });
+
+  const dayWiseArray = Object.entries(groupedByDay).map(([day, slots]) => ({
+    day,
+    classes: slots.map(
+      (s) => `${s.classId} - ${s.subject} (${s.startTime} - ${s.endTime})`
+    ),
+  }));
+
+  
+
+ 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
       <div className="max-w-6xl mx-auto">
@@ -124,10 +163,10 @@ function TeacherProfile() {
                         <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                       </svg>
                       <a
-                        href={`mailto:${teacher.contact}`}
+                        href={`mailto:${teacherData.email}`}
                         className="text-blue-600 hover:underline"
                       >
-                        {teacher.contact}
+                        {teacherData.email}
                       </a>
                     </div>
                     <div className="flex items-center mt-2">
@@ -298,7 +337,7 @@ function TeacherProfile() {
             Weekly Schedule
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-            {teacher.schedule.map((daySchedule, index) => (
+            {dayWiseArray.map((daySchedule, index) => (
               <div key={index} className="border rounded-lg p-4">
                 <h3 className="font-bold text-lg text-gray-800 mb-3">
                   {daySchedule.day}

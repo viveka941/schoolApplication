@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function AllTeachers() {
+  const navigate = useNavigate()
   const [teachers, setTeacher] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState("All Subjects");
   const [searchTerm, setSearchTerm] = useState("");
@@ -134,7 +136,11 @@ export default function AllTeachers() {
           <tbody className="bg-white divide-y divide-gray-200">
             {filteredTeachers.length > 0 ? (
               filteredTeachers.map((teacher) => (
-                <tr key={teacher._id} className="hover:bg-gray-50">
+                <tr
+                  key={teacher._id}
+                  onClick={() => navigate(`/teacherProfile/${teacher._id}`)}
+                  className="hover:bg-gray-50"
+                >
                   {/* ID */}
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     {teacher._id.toString().slice(-4)}

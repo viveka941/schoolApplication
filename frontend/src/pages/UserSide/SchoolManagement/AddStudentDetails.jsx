@@ -1,9 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useId, useState } from "react";
 import { set, useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function AddStudentDetails() {
+  const navigate = useNavigate()
   const { userId } = useParams();
   const {
     register,
@@ -17,6 +18,7 @@ function AddStudentDetails() {
     try {
       const res = await axios.get("http://localhost:5000/api/class/allClass");
       setAllClass(res.data.allClass);
+
     } catch (error) 
     {
       console.log("server is not responding "+ error)
@@ -35,6 +37,7 @@ function AddStudentDetails() {
         }
       );
       alert("succesfull add new student")
+      navigate("/ClassWiseData");
     } catch (error) {
       console.log("Server is not responding "+ error)
     }
