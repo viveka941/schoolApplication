@@ -1,4 +1,5 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 
 function TeacherProfile() {
   // Sample teacher data
@@ -50,6 +51,10 @@ function TeacherProfile() {
     },
   };
 
+  const location = useLocation()
+  const teacherData = location.state?.allData || []
+  console.log(teacherData.name)
+
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
       <div className="max-w-6xl mx-auto">
@@ -63,7 +68,7 @@ function TeacherProfile() {
               <div className="flex justify-between items-start">
                 <div>
                   <div className="text-3xl font-bold text-gray-800">
-                    {teacher.name}
+                    {teacherData.name}
                   </div>
                   <div className="mt-2 text-xl text-blue-600 font-medium">
                     {teacher.subject} Teacher

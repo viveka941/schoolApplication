@@ -5,7 +5,7 @@ export const timetable = async (req, res) => {
   try {
     const { classId, day, slots } = req.body;
 
-    if (!classId || !day || !slots) {
+    if (!classId || !day || !Array.isArray(slots) || slots.length==0) {
       return res.status(403).json({
         message: "Required fields are missing",
         success: false,

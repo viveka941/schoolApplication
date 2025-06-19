@@ -15,6 +15,9 @@ import StudentDashboard from "./pages/UserSide/SchoolManagement/StudentDashboard
 import RegisterUser from "./pages/UserSide/SchoolManagement/RegisterUser";
 import AddStudentDetails from "./pages/UserSide/SchoolManagement/AddStudentDetails";
 import AddTeacher from "./pages/UserSide/SchoolManagement/AddTeacher";
+import Paragliding from "./pages/UserSide/SchoolManagement/Paragliding";
+import TimeTableForm from "./pages/UserSide/TeacherSide/TimeTableForm";
+import { AllDataProvider } from "./AllData/AllData";
 
 function App() {
   const appRoute = createBrowserRouter([
@@ -31,13 +34,15 @@ function App() {
     {path:"/addTeacherDetails/:userId",element:<AddTeacher/>},
     {path:"/addStaffDetails/:userId",element:<AddStudentDetails/>},
     {path:"/teacherProfile",element:<TeacherProfile/>},
-    {path:"/studentProfile",element:<StudentDashboard/>}
+    {path:"/studentProfile",element:<StudentDashboard/>},
+    {path:"/paragliding",element: <Paragliding/>},
+    {path:"/addTimeTable",element:<TimeTableForm/>}
   ]);
 
   return (
-    <>
+    < AllDataProvider>
       <RouterProvider router={appRoute}></RouterProvider>;
-    </>
+    </AllDataProvider>
   );
 }
 

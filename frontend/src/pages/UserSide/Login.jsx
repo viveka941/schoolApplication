@@ -42,7 +42,7 @@ function Login() {
             navigate("/studentProfile",{state:{allData:res.data.user}});
             break;
           case "Teacher":
-            navigate("/teacherProfile");
+            navigate("/teacherProfile",{state:{allData:res.data.user}});
             break;
           case "Counsellor":
             navigate("/cashier");

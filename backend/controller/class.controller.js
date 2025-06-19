@@ -23,7 +23,7 @@ export const newClass = async (req, res) => {
       student,
     });
 
-    return res.status(403).json({
+    return res.status(200).json({
       message: "successfull added class",
       success: true,
       Class: newClass,
