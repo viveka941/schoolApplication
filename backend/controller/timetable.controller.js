@@ -28,3 +28,29 @@ export const timetable = async (req, res) => {
     });
   }
 };
+
+export const showTimeTable = async(req,res)=>{
+  try {
+    const getTimeTable = await TimeTable.find({})
+      .populate("classId", "name")
+      .populate({
+        path: "slots.teacher",
+        populate: {
+          path: "userId",
+          select: "name", 
+        },
+      });
+
+    return res.status(200).json({
+      message:"successfull data festch ",
+      success : true,
+      timetable: getTimeTable
+    })
+  } catch (error) {
+    console.log("server is not responding")
+    return res.status(500).json({
+      message:"intrnal server is not working"
+    })
+    
+  }
+}

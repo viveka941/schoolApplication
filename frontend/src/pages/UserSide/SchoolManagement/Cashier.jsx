@@ -240,6 +240,12 @@ const Cashier = memo(() => {
         >
           Make Time Table
         </button>
+        <button
+          onClick={() => navigate("/showtimeTable")}
+          className="bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-4 rounded-lg transition shadow-md"
+        >
+          Show time table
+        </button>
         <button className="bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-4 rounded-lg transition shadow-md">
           Record Payment
         </button>
