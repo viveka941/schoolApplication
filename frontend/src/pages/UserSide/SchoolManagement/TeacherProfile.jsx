@@ -1,5 +1,6 @@
 import { useAllData } from "@/AllData/AllData";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 
 function TeacherProfile() {
@@ -19,32 +20,7 @@ function TeacherProfile() {
       "Certified Advanced Mathematics Instructor",
     ],
     
-    schedule: [
-      {
-        day: "Monday",
-        classes: ["Grade 10 (9:00-10:30)", "Grade 11 (11:00-12:30)"],
-      },
-      {
-        day: "Tuesday",
-        classes: ["Grade 11 (9:00-10:30)", "Grade 10 (11:00-12:30)"],
-      },
-      {
-        day: "Wednesday",
-        classes: ["Grade 10 (9:00-10:30)", "Math Club (2:00-3:30)"],
-      },
-      {
-        day: "Thursday",
-        classes: ["Grade 11 (9:00-10:30)", "Grade 10 (11:00-12:30)"],
-      },
-      {
-        day: "Friday",
-        classes: [
-          "Grade 10 (9:00-10:30)",
-          "Grade 11 (11:00-12:30)",
-          "Faculty Meeting (3:00-4:30)",
-        ],
-      },
-    ],
+   
     stats: {
       yearsExperience: 8,
       studentsTaught: 420,
@@ -55,10 +31,27 @@ function TeacherProfile() {
 
   const location = useLocation()
   const {id} = useParams()
-  const teacherData = location.state?.allData || []
-  console.log(teacherData)
+
+
+  const [allteacherData,setallTeacherData] = useState([])
+  useEffect(()=>{
+   const allData = async()=>{
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/api/user/getUserData/${id}`
+      );
+      setallTeacherData({...res.data.user ,...res.data.allData} )
+     
+    } catch (error) {
+      console.log(error)
+    }
+   }
+   allData()
+  },[])
+  
+  const teacherData = location.state?.allData || allteacherData;
+ 
   const { allTimeTable } = useAllData();
-  console.log(allTimeTable);
 
   const matchedSlots = [];
 

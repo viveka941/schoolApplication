@@ -33,6 +33,7 @@ function Login() {
         localStorage.setItem("user", JSON.stringify(res.data.user));
         const role = res.data.user.role;
         const id  = res.data.user._id
+        console.log(id)
        
 
 

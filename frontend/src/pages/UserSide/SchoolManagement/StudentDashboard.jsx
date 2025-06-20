@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 
 function StudentDashboard() {
@@ -103,10 +103,19 @@ function StudentDashboard() {
     { id: 4, action: "Downloaded Physics Material", time: "2 days ago" },
   ];
 
+  const [allStDetails , setAllStDetails] = useState([])
+  console.log(allStDetails)
+  const {id} = useParams()
+  console.log(id)
   useEffect(()=>{
     async function Student() {
       try {
-        const res = await axios.get("http:/localhost:5000/api/student/")
+        const res = await axios.get(
+          `http://localhost:5000/api/user/getUserData/${id}`
+        );
+
+        
+        setAllStDetails({...res.data.user,...res.data.allData})
       } catch (error) {
         
       }
@@ -114,7 +123,7 @@ function StudentDashboard() {
     Student()
   },[])
   const location = useLocation()
-  const StData = location.state?.allData ||[]
+  const StData = location.state?.allData ||allStDetails
   
 
  

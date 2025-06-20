@@ -15,6 +15,9 @@ function ClassWiseData() {
           "http://localhost:5000/api/student/allStudent"
         );
         const students = res.data.list;
+       
+
+        
 
         // Grouping students by class name
         const grouped = students.reduce((acc, student) => {
@@ -29,7 +32,7 @@ function ClassWiseData() {
             name: student.userId.name,
             email: student.userId.email,
             phone: student.phone,
-            roll: student._id.slice(-4), // Temporary roll
+            roll: student.userId._id, // Temporary roll
             attendance: `${Math.floor(Math.random() * 100)}%`, // Temporary data
           });
 
@@ -60,6 +63,7 @@ function ClassWiseData() {
         student.roll.toString().includes(searchTerm) ||
         student.phone.includes(searchTerm)
     ) || [];
+
 
   return (
     <div className="p-6">
@@ -134,9 +138,11 @@ function ClassWiseData() {
           <tbody className="bg-white divide-y divide-gray-200">
             {filteredStudents.length > 0 ? (
               filteredStudents.map((student) => (
+                
                 <tr
                   key={student.id}
-                  onClick={() => navigate(`/studentProfile/${student.id}`)}
+                 
+                  onClick={() => navigate(`/studentProfile/${student.roll}`)}
                   className="hover:bg-gray-50"
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -207,6 +213,9 @@ function ClassWiseData() {
         </div>
 
         <div className="flex space-x-2">
+          <button onClick={()=>navigate("/cashier")} className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
+            Home
+          </button>
           <button className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
             Previous
           </button>

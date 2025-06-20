@@ -1,3 +1,5 @@
+import { Student } from "../model/Student.model.js";
+import { Teacher } from "../model/Teacher.model.js";
 import { User } from "../model/User.model.js";
 import bcrypt from "bcrypt";
 export const addUser = async (req, res) => {
@@ -79,3 +81,43 @@ export const userLogin = async (req, res) => {
 //     console.log("server is not responding" + error);
 //   }
 // }
+
+
+export const getUserDataById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const userData = await User.findById(id);
+
+    if (!userData) {
+      return res.status(404).json({
+        message: "User not found",
+        success: false,
+      });
+    }
+
+    let allData = null;
+
+    if (userData.role === "Teacher") {
+      const teacherData = await Teacher.findOne({ userId: id });
+      allData = teacherData;
+    } else if (userData.role === "Student") {
+      const studentData = await Student.findOne({ userId: id });
+      allData = studentData;
+    }
+
+    return res.status(200).json({
+      message: "Successfully fetched data",
+      success: true,
+      user: userData,
+      allData,
+    });
+  } catch (error) {
+    console.error("Server error:", error);
+    return res.status(500).json({
+      message: "Server error",
+      success: false,
+      error: error.message,
+    });
+  }
+};

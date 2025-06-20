@@ -20,6 +20,10 @@ const teacherSchema = mongoose.Schema(
       ref: "Class",
       required: true,
     },
+    qualification:{
+      type: String,
+      required: true
+    },
     salary: {
       type: Number,
       required: true,

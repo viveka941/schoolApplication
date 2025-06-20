@@ -1,31 +1,21 @@
+import { useAllData } from "@/AllData/AllData";
 import axios from "axios";
 import React, { useEffect, useId, useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 
 function AddTeacher() {
   const { userId } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const [allClass,setAllClass]=useState([])
- useEffect(()=>{
-  const getAllClass = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/api/class/allClass");
-      setAllClass(res.data.allClass);
-    } catch (error) 
-    {
-      console.log("server is not responding "+ error)
-    }
-  };
-  getAllClass()
- },[])
-  const onSubmit = async(data) => {
+  const { allClass } = useAllData();
+
+  const onSubmit = async (data) => {
     console.log({ ...data, userId }); // Include userId with form data
     try {
       const res = await axios.post(
@@ -37,10 +27,10 @@ function AddTeacher() {
           },
         }
       );
-      alert("succesfull add new Teacher")
+      alert("succesfull add new Teacher");
       navigate("/allTeacher");
     } catch (error) {
-      console.log("Server is not responding "+ error)
+      console.log("Server is not responding " + error);
     }
   };
 
@@ -98,7 +88,6 @@ function AddTeacher() {
             <option value="Hindi">Hindi</option>
             <option value="Art">Art</option>
             <option value="P.T">P.T</option>
-
           </select>
           {errors.subject && (
             <p className="text-red-500 text-sm mt-1">
@@ -112,7 +101,7 @@ function AddTeacher() {
             class
           </label>
           <select
-            {...register("classId", { required: "Student class is required" })}
+            {...register("classId", { required: "Teacher assingn class is required" })}
             className="mt-1 block w-full border rounded-md px-3 py-2 shadow-sm focus:ring-blue-300 focus:border-blue-400"
           >
             <option value="">Select class</option>
@@ -133,25 +122,37 @@ function AddTeacher() {
         {/* Father's Name */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">
-           Salary
+            Salary
           </label>
           <input
             type="number"
             {...register("salary", {
-              required: "Student father's name is required",
+              required: "Salary is required",
             })}
             className="mt-1 block w-full border rounded-md px-3 py-2 shadow-sm focus:ring-blue-300 focus:border-blue-400"
           />
           {errors.salary && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.salary.message}
-            </p>
+            <p className="text-red-500 text-sm mt-1">{errors.salary.message}</p>
           )}
         </div>
 
-       
-
-        
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+            Qualification
+          </label>
+          <input
+            type="text"
+            {...register("qualification", {
+              required: "Teacher qualification is required",
+            })}
+            className="mt-1 block w-full border rounded-md px-3 py-2 shadow-sm focus:ring-blue-300 focus:border-blue-400"
+          />
+          {errors.qualification && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.qualification.message}
+            </p>
+          )}
+        </div>
 
         {/* Submit */}
         <button

@@ -2,8 +2,15 @@ import { Teacher } from "../model/Teacher.model.js";
 
 export const addTeacher = async (req, res) => {
   try {
-    const { userId, subject, phone, classId, salary } = req.body;
-    if (!userId || !subject || !classId || !phone || !salary) {
+    const { userId, subject, phone, classId,qualification, salary } = req.body;
+    if (
+      !userId ||
+      !subject ||
+      !classId ||
+      !phone ||
+      !salary ||
+      !qualification
+    ) {
       return res.status(403).json({
         message: "required fields is missing",
         success: false,
@@ -23,6 +30,7 @@ export const addTeacher = async (req, res) => {
       subject,
       phone,
       classId,
+      qualification,
       salary,
       hireDate: currentDate,
     });
@@ -114,3 +122,33 @@ export const getAllTeacher = async (req, res) => {
     });
   }
 };
+
+
+export const getDataById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const userData = await Teacher.findById(id);
+
+    if (!userData) {
+      return res.status(404).json({
+        message: "Teacher not found",
+        success: false,
+      });
+    }
+
+    return res.status(200).json({
+      message: "Successfully fetched data",
+      success: true,
+      user: userData,
+    });
+  } catch (error) {
+    console.error("Server error:", error);
+    return res.status(500).json({
+      message: "Server error",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+

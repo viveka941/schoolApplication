@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function AllTeachers() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [teachers, setTeacher] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState("All Subjects");
   const [searchTerm, setSearchTerm] = useState("");
@@ -45,6 +45,7 @@ export default function AllTeachers() {
     return matchesSearch && matchesSubject;
   });
 
+  
   return (
     <div className="p-6">
       {/* Header + Search + Filter */}
@@ -138,7 +139,7 @@ export default function AllTeachers() {
               filteredTeachers.map((teacher) => (
                 <tr
                   key={teacher._id}
-                  onClick={() => navigate(`/teacherProfile/${teacher._id}`)}
+                  onClick={() => navigate(`/teacherProfile/${teacher.userId._id}`)}
                   className="hover:bg-gray-50"
                 >
                   {/* ID */}
@@ -235,6 +236,12 @@ export default function AllTeachers() {
           Showing {filteredTeachers.length} of {teachers.length} teachers
         </div>
         <div className="flex space-x-2">
+          <button
+            onClick={() => navigate("/cashier")}
+            className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300"
+          >
+            Home
+          </button>
           <button className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
             Previous
           </button>
