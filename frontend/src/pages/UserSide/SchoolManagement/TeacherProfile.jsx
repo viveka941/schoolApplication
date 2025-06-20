@@ -359,7 +359,7 @@ function TeacherProfile() {
         <div className="mt-8 bg-gradient-to-br from-blue-50 to-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition duration-300">
           <h3
             onClick={() =>
-              navigate(`/attendence/${allteacherData?.classId?._id}`)
+              navigate(`/attendence/${allteacherData?.classId?.name}`)
             }
             className="text-xl font-semibold text-blue-700 cursor-pointer hover:underline"
           >

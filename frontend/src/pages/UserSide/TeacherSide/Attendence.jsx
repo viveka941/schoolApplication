@@ -1,13 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
 function Attendence() {
   const [allList, setAllList] = useState([]);
   const [classId ,setClassId] = useState()
  
-  const className = "Class-3";
-
+  const {className}= useParams();
+ 
   useEffect(() => {
     async function AllStudent() {
       try {
