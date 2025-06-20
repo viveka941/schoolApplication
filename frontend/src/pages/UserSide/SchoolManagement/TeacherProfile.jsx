@@ -1,7 +1,7 @@
 import { useAllData } from "@/AllData/AllData";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function TeacherProfile() {
   // Sample teacher data
@@ -32,8 +32,10 @@ function TeacherProfile() {
   const location = useLocation()
   const {id} = useParams()
 
-
+  const navigate = useNavigate()
   const [allteacherData,setallTeacherData] = useState([])
+  
+  
   useEffect(()=>{
    const allData = async()=>{
     try {
@@ -100,13 +102,17 @@ function TeacherProfile() {
               <div className="flex justify-between items-start">
                 <div>
                   <div className="text-3xl font-bold text-gray-800">
-                    {teacherData.name}
+                    {teacherData?.name}
                   </div>
                   <div className="mt-2 text-xl text-blue-600 font-medium">
-                    {teacher.subject} Teacher
+                    Subject-Teacher : {allteacherData?.subject}
                   </div>
+                  <div className="mt-2 text-xl text-blue-600 font-medium">
+                    Class-Teacher : {allteacherData?.classId?.name}
+                  </div>
+
                   <div className="mt-1 text-gray-600">
-                    Teaching {teacher.gradeLevels.join(" and ")}
+                    Teaching {teacher?.gradeLevels.join(" and ")}
                   </div>
                 </div>
                 <div className="flex space-x-2">
@@ -156,10 +162,10 @@ function TeacherProfile() {
                         <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                       </svg>
                       <a
-                        href={`mailto:${teacherData.email}`}
+                        href={`mailto:${allteacherData?.email}`}
                         className="text-blue-600 hover:underline"
                       >
-                        {teacherData.email}
+                        {allteacherData?.email}
                       </a>
                     </div>
                     <div className="flex items-center mt-2">
@@ -171,7 +177,7 @@ function TeacherProfile() {
                       >
                         <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                       </svg>
-                      {teacher.phone}
+                      {allteacherData?.phone}
                     </div>
                     <div className="flex items-start mt-2">
                       <svg
@@ -348,6 +354,20 @@ function TeacherProfile() {
               </div>
             ))}
           </div>
+        </div>
+
+        <div className="mt-8 bg-gradient-to-br from-blue-50 to-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition duration-300">
+          <h3
+            onClick={() =>
+              navigate(`/attendence/${allteacherData?.classId?._id}`)
+            }
+            className="text-xl font-semibold text-blue-700 cursor-pointer hover:underline"
+          >
+            📋 Take Attendance for{" "}
+            <span className="font-bold text-blue-900">
+              {allteacherData?.classId?.name || "Class"}
+            </span>
+          </h3>
         </div>
 
         {/* Recent Activity */}

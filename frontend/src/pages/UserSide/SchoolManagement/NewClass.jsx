@@ -76,6 +76,11 @@ function NewClass() {
                   value: 1,
                   message: "Must be at least 1 character",
                 },
+                pattern: {
+                  value: /^Class-\d+[A-Z]?$/,
+                  message:
+                    "Class name must be in format like Class-1 or Class-1B",
+                },
               })}
             />
             {errors.name && (

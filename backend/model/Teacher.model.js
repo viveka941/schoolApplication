@@ -18,7 +18,11 @@ const teacherSchema = mongoose.Schema(
     classId: {
       type: mongoose.Types.ObjectId,
       ref: "Class",
-      required: true,
+    
+    },
+    address:{
+      type: String,
+      required: true
     },
     qualification:{
       type: String,

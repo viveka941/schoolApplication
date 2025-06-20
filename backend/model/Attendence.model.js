@@ -26,7 +26,7 @@ const attendenceSchema = mongoose.Schema(
       required: true,
     },
   },
-  { timestapms: true }
+    { timestamps: true }
 );
 
 export const Attendence = mongoose.model("Attendence", attendenceSchema);

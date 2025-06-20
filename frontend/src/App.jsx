@@ -20,6 +20,7 @@ import TimeTableForm from "./pages/UserSide/TeacherSide/TimeTableForm";
 import { AllDataProvider } from "./AllData/AllData";
 import ShowTimeTable from "./pages/UserSide/TeacherSide/ShowTimeTable";
 import NewClass from "./pages/UserSide/SchoolManagement/NewClass";
+import Attendence from "./pages/UserSide/TeacherSide/Attendence";
 
 function App() {
   const appRoute = createBrowserRouter([
@@ -40,7 +41,9 @@ function App() {
     {path:"/paragliding",element: <Paragliding/>},
     {path:"/addTimeTable",element:<TimeTableForm/>},
     {path:"/showtimeTable",element:<ShowTimeTable/>},
-    {path:"/addClass",element:<NewClass/>}
+    {path:"/addClass",element:<NewClass/>},
+    {path:"/attendence/:className",element:<Attendence/>}
+    
   ]);
 
   return (

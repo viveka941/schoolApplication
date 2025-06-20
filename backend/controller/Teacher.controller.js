@@ -2,12 +2,14 @@ import { Teacher } from "../model/Teacher.model.js";
 
 export const addTeacher = async (req, res) => {
   try {
-    const { userId, subject, phone, classId,qualification, salary } = req.body;
+    const { userId, subject, phone, classId, address,qualification, salary } =
+      req.body;
     if (
       !userId ||
       !subject ||
       !classId ||
       !phone ||
+      !address||
       !salary ||
       !qualification
     ) {
@@ -30,6 +32,7 @@ export const addTeacher = async (req, res) => {
       subject,
       phone,
       classId,
+      address,
       qualification,
       salary,
       hireDate: currentDate,
