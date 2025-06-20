@@ -102,7 +102,8 @@ export const getUserDataById = async (req, res) => {
       const teacherData = await Teacher.findOne({ userId: id });
       allData = teacherData;
     } else if (userData.role === "Student") {
-      const studentData = await Student.findOne({ userId: id });
+      const studentData = await Student.findOne({ userId: id })
+      .populate("classId","name")
       allData = studentData;
     }
 

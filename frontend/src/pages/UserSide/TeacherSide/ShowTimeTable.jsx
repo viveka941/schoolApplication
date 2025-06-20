@@ -69,7 +69,7 @@ function ShowTimeTable() {
           >
             <div className="bg-indigo-700 p-4">
               <h2 className="text-xl font-bold text-white">
-                Class {className} Timetable
+                Class: {className} Timetable
               </h2>
             </div>
 

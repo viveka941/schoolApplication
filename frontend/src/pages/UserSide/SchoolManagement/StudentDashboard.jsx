@@ -1,3 +1,4 @@
+import { useAllData } from "@/AllData/AllData";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
@@ -7,7 +8,7 @@ function StudentDashboard() {
   const student = {
     name: "Raj Sharma",
     grade: "Grade 10",
-    studentId: "STU-2023-105",  
+    studentId: "STU-2023-105",
     attendance: "95%",
     overallGrade: "A-",
     nextClass: "Mathematics",
@@ -103,51 +104,67 @@ function StudentDashboard() {
     { id: 4, action: "Downloaded Physics Material", time: "2 days ago" },
   ];
 
-  const [allStDetails , setAllStDetails] = useState([])
-  console.log(allStDetails)
-  const {id} = useParams()
-  console.log(id)
-  useEffect(()=>{
+  const [allStDetails, setAllStDetails] = useState({});
+
+  const { id } = useParams();
+  console.log(allStDetails);
+  useEffect(() => {
     async function Student() {
       try {
         const res = await axios.get(
           `http://localhost:5000/api/user/getUserData/${id}`
         );
 
-        
-        setAllStDetails({...res.data.user,...res.data.allData})
-      } catch (error) {
-        
-      }
+        setAllStDetails({ ...res.data.user, ...res.data.allData });
+      } catch (error) {}
     }
-    Student()
-  },[])
-  const location = useLocation()
-  const StData = location.state?.allData ||allStDetails
-  
+    Student();
+  }, []);
 
- 
+  const { allTimeTable } = useAllData();
+  console.log(allTimeTable);
+
+  const filterTimeTable = allTimeTable.filter(
+    (data) => data.classId?.name === allStDetails.classId?.name
+  );
+
+  console.log(filterTimeTable);
+
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
-          <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
-              Student Dashboard
-            </h1>
-            <p className="text-gray-600">Welcome back, {StData.name}</p>
-          </div>
-          <div className="mt-4 md:mt-0 bg-white rounded-lg shadow-sm p-4 flex items-center">
-            <div className="bg-gray-200 border-2 border-dashed rounded-full w-16 h-16" />
-            <div className="ml-4">
-              <div className="font-medium">{StData.name}</div>
-              <div className="text-sm text-gray-600">
-                {student.grade} | {student.studentId}
+
+        {allStDetails && (
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+                Student Dashboard
+              </h1>
+              <p className="text-gray-600">Welcome back, {allStDetails.name}</p>
+            </div>
+
+            <div className="mt-4 md:mt-0 bg-white rounded-lg shadow-sm p-4 flex items-center">
+              <div className="bg-gray-200 border-2 border-dashed rounded-full w-16 h-16" />
+              <div className="ml-4">
+                <div className="font-medium">{allStDetails.name}</div>
+                <div className="text-sm text-gray-600">
+                  {allStDetails.classId?.name || "N/A"} |{" "}
+                  {allStDetails._id?.slice(-4)}
+                </div>
+                <div className="text-sm text-gray-600">
+                  {allStDetails.gender} | {allStDetails.phone}
+                </div>
+                <div className="text-sm text-gray-600">
+                  {allStDetails.email}
+                </div>
+                <div className="text-sm text-gray-600">
+                  Dob: {allStDetails.dob?.split("T")[0]}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -360,69 +377,33 @@ function StudentDashboard() {
               </button>
             </div>
 
-            <div className="overflow-x-auto">
-              <table className="min-w-full">
-                <thead>
-                  <tr className="bg-gray-50">
-                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                      Time
-                    </th>
-                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                      Mon
-                    </th>
-                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                      Tue
-                    </th>
-                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                      Wed
-                    </th>
-                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                      Thu
-                    </th>
-                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                      Fri
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                  <tr>
-                    <td className="px-4 py-3 text-sm font-medium">8:00-9:30</td>
-                    <td className="px-4 py-3 text-sm">Physics</td>
-                    <td className="px-4 py-3 text-sm">English</td>
-                    <td className="px-4 py-3 text-sm">Math</td>
-                    <td className="px-4 py-3 text-sm">Chemistry</td>
-                    <td className="px-4 py-3 text-sm">Comp Sci</td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-3 text-sm font-medium">
-                      10:00-11:30
-                    </td>
-                    <td className="px-4 py-3 text-sm">Math</td>
-                    <td className="px-4 py-3 text-sm">Physics</td>
-                    <td className="px-4 py-3 text-sm">Chemistry</td>
-                    <td className="px-4 py-3 text-sm">English</td>
-                    <td className="px-4 py-3 text-sm">Physics</td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-3 text-sm font-medium">
-                      12:00-1:30
-                    </td>
-                    <td className="px-4 py-3 text-sm">English</td>
-                    <td className="px-4 py-3 text-sm">Chemistry</td>
-                    <td className="px-4 py-3 text-sm">Physics Lab</td>
-                    <td className="px-4 py-3 text-sm">Math</td>
-                    <td className="px-4 py-3 text-sm">English</td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-3 text-sm font-medium">2:00-3:30</td>
-                    <td className="px-4 py-3 text-sm">Comp Sci</td>
-                    <td className="px-4 py-3 text-sm">Math</td>
-                    <td className="px-4 py-3 text-sm">English</td>
-                    <td className="px-4 py-3 text-sm">Physics</td>
-                    <td className="px-4 py-3 text-sm">Chemistry Lab</td>
-                  </tr>
-                </tbody>
-              </table>
+            <div className="mt-8 bg-white rounded-xl shadow-md p-6">
+            
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                {filterTimeTable.map((daySchedule, index) => (
+                  <div key={index} className="border rounded-lg p-4 mb-4">
+                    <h3 className="font-bold text-lg text-gray-800 mb-3">
+                      {daySchedule.day}
+                    </h3>
+                    <ul className="space-y-2">
+                      {daySchedule.slots.map((slot, slotIndex) => (
+                        <li
+                          key={slotIndex}
+                          className="bg-blue-50 p-2 rounded-md text-sm flex justify-between"
+                        >
+                          <span className="font-medium">{slot.subject}</span>
+                          <span>
+                            {slot.startTime} - {slot.endTime}
+                          </span>
+                          <span className="text-gray-600">
+                            {slot.teacher?.userId?.name}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
