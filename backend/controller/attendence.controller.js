@@ -1,28 +1,27 @@
 import { Attendence } from "../model/Attendence.model.js";
+// Example: req.body = { classId, allStudentList: [{ studentId, status }, ...] }
 
 export const addAttendence = async (req, res) => {
   try {
-    const { classId, studentId, status } = req.body;
+    const { classId, allStudentList } = req.body;
 
-    if (!classId || !studentId || !status) {
-      return res.status(403).json({
-        message: "required fields is missing",
+    if (!classId || !Array.isArray(allStudentList) || allStudentList.length === 0) {
+      return res.status(400).json({
+        message: "Required fields are missing",
         success: false,
       });
     }
 
-    const date = new Date
-    const newAtt = await Attendence.create({
+    const newAttendance = await Attendence.create({
       classId,
-      studentId,
-      status,
-      date:date
+      allStudentList,
+      date: new Date(),
     });
 
-    return res.status(403).json({
-      message: "successfull added attendence",
+    return res.status(200).json({
+      message: "Successfully added attendance",
       success: true,
-      Attendence: newAtt
+      data: newAttendance,
     });
   } catch (error) {
     console.error(error);
@@ -33,3 +32,6 @@ export const addAttendence = async (req, res) => {
     });
   }
 };
+
+
+

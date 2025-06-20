@@ -1,35 +1,34 @@
 import { Class } from "../model/Class.model.js";
 
+// Add a new class
 export const newClass = async (req, res) => {
   try {
-    const { name, student } = req.body;
-    if (!name || !student) {
+    const { name } = req.body;
+
+    if (!name) {
       return res.status(403).json({
-        message: "required fields is missing",
+        message: "Class name is required",
         success: false,
       });
     }
 
     const existingClass = await Class.findOne({ name });
     if (existingClass) {
-      return res.status(403).json({
-        message: "class name already exist",
+      return res.status(400).json({
+        message: "Class name already exists",
         success: false,
       });
     }
 
-    const newClass = await Class.create({
-      name,
-      student,
-    });
+    const createdClass = await Class.create({ name });
 
     return res.status(200).json({
-      message: "successfull added class",
+      message: "Class added successfully",
       success: true,
-      Class: newClass,
+      classData: createdClass,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error creating class:", error.message);
     return res.status(500).json({
       message: "Internal server error",
       success: false,
@@ -38,16 +37,22 @@ export const newClass = async (req, res) => {
   }
 };
 
-export const getAllClass = async(req,res)=>{
+// Get all classes
+export const getAllClass = async (req, res) => {
   try {
-    const getAllClass = await Class.find({})
-
+    const allClasses = await Class.find({}).populate("student", "name"); // optional populate
     return res.status(200).json({
-      message:"all class fetch",
+      message: "All classes fetched successfully",
       success: true,
-      allClass: getAllClass
-    })
+      allClass: allClasses,
+    });
   } catch (error) {
-    
+    return res.status(500).json({
+      message: "Internal server error",
+      success: false,
+      error: error.message,
+    });
   }
-}
+};
+
+// Add a student to a class

@@ -4,7 +4,7 @@ import { set, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 
 function AddStudentDetails() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { userId } = useParams();
   const {
     register,
@@ -12,34 +12,36 @@ function AddStudentDetails() {
     formState: { errors },
   } = useForm();
 
-  const [allClass,setAllClass]=useState([])
- useEffect(()=>{
-  const getAllClass = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/api/class/allClass");
-      setAllClass(res.data.allClass);
-
-    } catch (error) 
-    {
-      console.log("server is not responding "+ error)
-    }
-  };
-  getAllClass()
- },[])
-  const onSubmit = async(data) => {
-    console.log({ ...data, userId }); // Include userId with form data
+  const [allClass, setAllClass] = useState([]);
+  useEffect(() => {
+    const getAllClass = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/class/allClass");
+        setAllClass(res.data.allClass);
+      } catch (error) {
+        console.log("server is not responding " + error);
+      }
+    };
+    getAllClass();
+  }, []);
+  const onSubmit = async (data) => {
+    console.log({ ...data, userId });
+    // Include userId with form data
+ 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/student/addStudnet",{...data,userId},{
-          headers:{
-            "Content-Type": "application/json"
-          }
+        "http://localhost:5000/api/student/addStudnet",
+        { ...data, userId },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
-      alert("succesfull add new student")
+      alert("succesfull add new student");
       navigate("/ClassWiseData");
     } catch (error) {
-      console.log("Server is not responding "+ error)
+      console.log("Server is not responding " + error);
     }
   };
 

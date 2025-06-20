@@ -4,15 +4,16 @@ const classSchema = mongoose.Schema(
   {
     name: {
       type: String, // 10-A
-      unique:true,
+      unique: true,
       required: true,
     },
-   
-    student:[ {
-      type: mongoose.Types.ObjectId,
-      ref:"Student",
-      required: true,
-    }],
+
+    student: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "Student",
+      },
+    ],
   },
   { timestamps: true }
 );
