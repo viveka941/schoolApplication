@@ -107,7 +107,7 @@ function AddTeacher() {
             className="mt-1 block w-full border rounded-md px-3 py-2 shadow-sm focus:ring-blue-300 focus:border-blue-400"
           >
             <option value="">Select class</option>
-          
+
             {allClass.map((data, i) => (
               <option key={data._id} value={data._id}>
                 {data.name}
@@ -145,8 +145,9 @@ function AddTeacher() {
           </label>
           <input
             type="text"
+            placeholder="write formate like is-> MSC, BCA, MA"
             {...register("qualification", {
-              required: "Teacher qualification is required",
+              required: "Teacher qualification is required ",
             })}
             className="mt-1 block w-full border rounded-md px-3 py-2 shadow-sm focus:ring-blue-300 focus:border-blue-400"
           />

@@ -19,13 +19,14 @@ export const addTeacher = async (req, res) => {
       });
     }
     const existingTeacher = await Teacher.findOne({ userId });
-
+    const degree = qualification.split(",").map(item=>item.trim())
     if (existingTeacher) {
       return res.status(203).json({
         message: "Teacher is already exist",
         success: false,
       });
     }
+
     const currentDate = new Date();
     const newTeacher = await Teacher.create({
       userId,
@@ -33,7 +34,7 @@ export const addTeacher = async (req, res) => {
       phone,
       classId,
       address,
-      qualification,
+      qualification :degree,
       salary,
       hireDate: currentDate,
     });

@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useId } from "react";
+import React, { useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
@@ -11,6 +11,7 @@ function RegisterUser() {
     reset,
   } = useForm();
   const navigate = useNavigate()
+  const [Message, setMessage] = useState("");
 
   const onSubmit = async (data) => {
     try {
@@ -23,10 +24,16 @@ function RegisterUser() {
           },
         }
       );
+
       console.log(res.data);
+
+      // Always show message from server
+      setMessage(res.data.message);
+
       if (res.data.success) {
         const role = res.data.user.role;
         const userId = res.data.user._id;
+
         switch (role) {
           case "Student":
             navigate(`/addStudentDetails/${userId}`);
@@ -37,16 +44,21 @@ function RegisterUser() {
           case "Staff":
             navigate(`/addStaffDetails/${userId}`);
             break;
-
           default:
-            alert(" role is not defind");
+            alert("Role is not defined");
         }
       }
     } catch (error) {
-      console.log("server is not responding");
+      // Fallback in case server is down or doesn't send proper response
+      const errMsg =
+        error.response?.data?.message || "Server is not responding";
+      setMessage(errMsg);
+     
     }
+
     reset();
   };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
@@ -144,6 +156,9 @@ function RegisterUser() {
         >
           Register
         </button>
+        {Message && (
+          <p className="text-green-600 font-semibold mt-2">{Message}</p>
+        )}
       </form>
     </div>
   );
