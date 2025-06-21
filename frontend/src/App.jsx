@@ -22,6 +22,7 @@ import ShowTimeTable from "./pages/UserSide/TeacherSide/ShowTimeTable";
 import NewClass from "./pages/UserSide/SchoolManagement/NewClass";
 import Attendence from "./pages/UserSide/TeacherSide/Attendence";
 import AttendenceDetails from "./pages/UserSide/Student/AttendenceDetails";
+import EventForm from "./pages/UserSide/TeacherSide/EventForm";
 
 function App() {
   const appRoute = createBrowserRouter([
@@ -45,6 +46,7 @@ function App() {
     { path: "/addClass", element: <NewClass /> },
     { path: "/attendence/:className", element: <Attendence /> },
     {path: "/attendenceDetails/:id",element: <AttendenceDetails />},
+    {path:"/eventFrom/:teacherId",element:<EventForm/>}
   ]);
 
   return (

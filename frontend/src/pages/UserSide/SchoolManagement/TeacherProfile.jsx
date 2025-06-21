@@ -371,6 +371,17 @@ function TeacherProfile() {
             </span>
           </h3>
         </div>
+        <div className="mt-8 bg-gradient-to-br from-blue-50 to-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition duration-300">
+          <h3
+            onClick={() => navigate(`/eventFrom/${id}`)}
+            className="text-xl font-semibold text-blue-700 cursor-pointer hover:underline"
+          >
+            Create Event
+            <span className="font-bold text-blue-900">
+              {allteacherData?.classId?.name || "Class"}
+            </span>
+          </h3>
+        </div>
 
         {/* Recent Activity */}
         <div className="mt-8 bg-white rounded-xl shadow-md p-6">
