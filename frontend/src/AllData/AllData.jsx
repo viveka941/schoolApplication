@@ -10,6 +10,7 @@ export const AllDataProvider = ({ children }) => {
   const [allClass, setAllClass] = useState([]);
   const [allTeacher, setAllTeacher] = useState([]);
   const [allTimeTable, setAllTimeTable] = useState([]);
+  const [allEvent,setEvent]=useState()
   const [loading, setLoading] = useState(true);
 
   // Fetch Classes
@@ -49,8 +50,7 @@ export const AllDataProvider = ({ children }) => {
           "http://localhost:5000/api/timetable/allTimeTable"
         );
 
-       
-        setAllTimeTable(res.data.timetable );
+        setAllTimeTable(res.data.timetable);
       } catch (error) {
         console.error("Error fetching timetable:", error.message);
       } finally {
@@ -60,9 +60,28 @@ export const AllDataProvider = ({ children }) => {
     fetchTimeTable();
   }, []);
 
+  //Event List
+
+  useEffect(() => {
+    async function list() {
+      try {
+        const res = await axios.get("http://localhost:5000/api/event/allEvent");
+        setEvent(res.data.list)
+      } catch (error) {
+        console.log("server is not responding" + error);
+        return res.status(500).json({
+          message: "Internal server error",
+          success: false,
+          error: error.message,
+        });
+      }
+    }
+    list();
+  }, []);
+
   return (
     <AllDataContext.Provider
-      value={{ allClass, allTeacher, allTimeTable, loading }}
+      value={{ allClass, allTeacher, allTimeTable, loading, allEvent }}
     >
       {children}
     </AllDataContext.Provider>

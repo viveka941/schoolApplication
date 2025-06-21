@@ -102,7 +102,7 @@ function TeacherProfile() {
               <div className="flex justify-between items-start">
                 <div>
                   <div className="text-3xl font-bold text-gray-800">
-                    {teacherData?.name}
+                    {allteacherData?.name}
                   </div>
                   <div className="mt-2 text-xl text-blue-600 font-medium">
                     Subject-Teacher : {allteacherData?.subject}
@@ -373,7 +373,7 @@ function TeacherProfile() {
         </div>
         <div className="mt-8 bg-gradient-to-br from-blue-50 to-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition duration-300">
           <h3
-            onClick={() => navigate(`/eventFrom/${id}`)}
+            onClick={() => navigate(`/eventFrom/${allteacherData?.name}`)}
             className="text-xl font-semibold text-blue-700 cursor-pointer hover:underline"
           >
             Create Event

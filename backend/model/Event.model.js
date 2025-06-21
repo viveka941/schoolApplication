@@ -15,8 +15,7 @@ const eventSchema = mongoose.Schema(
       required: true,
     },
     createdBy: {
-      type: mongoose.Types.ObjectId,
-      ref: "Teacher",
+      type: String,
       required: true,
     },
   },

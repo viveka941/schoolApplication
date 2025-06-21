@@ -65,6 +65,7 @@ function StudentDashboard() {
     },
   ];
 
+  const {allEvent} = useAllData()
   const assignments = [
     {
       id: 1,
@@ -384,20 +385,32 @@ function StudentDashboard() {
             </div>
 
             <div className="space-y-6">
-              {announcements.map((announcement) => (
+              {allEvent.map((event) => (
                 <div
-                  key={announcement.id}
+                  key={event._id}
                   className="border-l-4 border-blue-500 pl-4 py-2 hover:bg-gray-50 p-3 rounded"
                 >
                   <div className="flex justify-between">
                     <h3 className="font-bold text-lg text-gray-800">
-                      {announcement.title}
+                      {event.title}
                     </h3>
                     <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
-                      {announcement.date}
+                      {new Date(event.date).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
                     </span>
                   </div>
-                  <p className="mt-2 text-gray-600">{announcement.content}</p>
+                  <p className="mt-2 text-gray-600">{event.description}</p>
+                  {event.createdBy && (
+                    <p className="mt-1 text-sm text-gray-500">
+                      Created by:{" "}
+                      {typeof event.createdBy === "string"
+                        ? event.createdBy
+                        : event.createdBy.name}
+                    </p>
+                  )}
                 </div>
               ))}
             </div>
