@@ -65,7 +65,7 @@ function StudentDashboard() {
     },
   ];
 
-  const {allEvent} = useAllData()
+  const { allEvent } = useAllData();
   const assignments = [
     {
       id: 1,
@@ -241,7 +241,7 @@ function StudentDashboard() {
             </div>
 
             <div className="space-y-4">
-              {upcomingClasses.map((classItem) => (
+              {upcomingClasses?.map((classItem) => (
                 <div
                   key={classItem.id}
                   className="border border-gray-200 rounded-lg p-4 hover:bg-blue-50 transition"
@@ -278,7 +278,7 @@ function StudentDashboard() {
             </div>
 
             <div className="space-y-4">
-              {assignments.map((assignment) => (
+              {assignments?.map((assignment) => (
                 <div
                   key={assignment.id}
                   className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition"
@@ -326,7 +326,7 @@ function StudentDashboard() {
             </div>
 
             <div className="space-y-4">
-              {performanceData.map((subject, index) => (
+              {performanceData?.map((subject, index) => (
                 <div key={index}>
                   <div className="flex justify-between mb-1">
                     <span className="font-medium">{subject.subject}</span>
@@ -357,7 +357,7 @@ function StudentDashboard() {
                 Recent Activities
               </h3>
               <div className="space-y-3">
-                {recentActivities.map((activity) => (
+                {recentActivities?.map((activity) => (
                   <div key={activity.id} className="flex items-start">
                     <div className="bg-gray-200 border-2 border-dashed rounded-full w-8 h-8 mt-1" />
                     <div className="ml-3">
@@ -385,7 +385,7 @@ function StudentDashboard() {
             </div>
 
             <div className="space-y-6">
-              {allEvent.map((event) => (
+              {allEvent?.map((event) => (
                 <div
                   key={event._id}
                   className="border-l-4 border-blue-500 pl-4 py-2 hover:bg-gray-50 p-3 rounded"
@@ -431,13 +431,13 @@ function StudentDashboard() {
 
             <div className="mt-8 bg-white rounded-xl shadow-md p-6">
               <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-                {filterTimeTable.map((daySchedule, index) => (
+                {filterTimeTable?.map((daySchedule, index) => (
                   <div key={index} className="border rounded-lg p-4 mb-4">
                     <h3 className="font-bold text-lg text-gray-800 mb-3">
                       {daySchedule.day}
                     </h3>
                     <ul className="space-y-2">
-                      {daySchedule.slots.map((slot, slotIndex) => (
+                      {daySchedule?.slots?.map((slot, slotIndex) => (
                         <li
                           key={slotIndex}
                           className="bg-blue-50 p-2 rounded-md text-sm flex justify-between"
