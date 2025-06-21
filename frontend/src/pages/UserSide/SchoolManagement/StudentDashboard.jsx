@@ -1,7 +1,7 @@
 import { useAllData } from "@/AllData/AllData";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function StudentDashboard() {
   // Sample data
@@ -107,7 +107,9 @@ function StudentDashboard() {
   const [allStDetails, setAllStDetails] = useState({});
 
   const { id } = useParams();
+  const navigate = useNavigate();
   console.log(allStDetails);
+
   useEffect(() => {
     async function Student() {
       try {
@@ -129,6 +131,34 @@ function StudentDashboard() {
   );
 
   console.log(filterTimeTable);
+
+  const classId = allStDetails.classId?._id;
+  const userId = id;
+  const [attendanceData, setAttendence] = useState();
+  console.log(attendanceData?.attendancePercentage);
+  useEffect(() => {
+    async function attendance(userId, classId) {
+      try {
+        const res = await axios.post(
+          `http://localhost:5000/api/attendence/list/${classId}`,
+          { userId },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log(res.data);
+        setAttendence(res.data);
+      } catch (error) {
+        console.error("Attendance fetch error:", error);
+      }
+    }
+
+    if (userId && classId) {
+      attendance(userId, classId);
+    }
+  }, [userId, classId]);
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
@@ -168,9 +198,18 @@ function StudentDashboard() {
 
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-blue-500">
+          <div
+            onClick={() =>
+              navigate(`/attendenceDetails/${id}`, {
+                state: { stAttendence: attendanceData },
+              })
+            }
+            className="bg-white p-6 rounded-xl shadow-md border-l-4 border-blue-500"
+          >
             <h3 className="text-gray-500 text-sm font-medium">Attendance</h3>
-            <p className="text-2xl font-bold mt-2">{student.attendance}</p>
+            <p className="text-2xl font-bold mt-2">
+              {attendanceData?.attendancePercentage}
+            </p>
           </div>
           <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500">
             <h3 className="text-gray-500 text-sm font-medium">Overall Grade</h3>
@@ -378,7 +417,6 @@ function StudentDashboard() {
             </div>
 
             <div className="mt-8 bg-white rounded-xl shadow-md p-6">
-            
               <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                 {filterTimeTable.map((daySchedule, index) => (
                   <div key={index} className="border rounded-lg p-4 mb-4">

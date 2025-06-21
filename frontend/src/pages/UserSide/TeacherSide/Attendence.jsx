@@ -1,11 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function Attendence() {
   const [allList, setAllList] = useState([]);
   const [classId ,setClassId] = useState()
+  const [message,setMessage] = useState('')
+  const navigate = useNavigate()
  
   const {className}= useParams();
  
@@ -17,7 +19,9 @@ function Attendence() {
         );
         setClassId(res.data.classId)
         setAllList(res.data.list);
+      
       } catch (error) {
+        setMessage(res.data.message || "Error fetching student list");
         console.log("Error fetching student list:", error);
       }
     }
@@ -49,8 +53,13 @@ function Attendence() {
         formattedData
       );
       console.log("Saved:", res.data);
+      if (res.data.success) {
+        setMessage(res.data.message);
+        
+      }
       reset();
     } catch (error) {
+      setMessage(res.data.message || "Error saving attendance:");
       console.log("Error saving attendance:", error);
     }
   };

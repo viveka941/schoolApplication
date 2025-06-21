@@ -7,6 +7,10 @@ const attendenceSchema = mongoose.Schema(
       ref: "Class",
       required: true,
     },
+    date: {
+      type: Date,
+      required: true,
+    },
     allStudentList: [
       {
         studentId: {
@@ -21,12 +25,8 @@ const attendenceSchema = mongoose.Schema(
         },
       },
     ],
-    date: {
-      type: Date,
-      required: true,
-    },
   },
-    { timestamps: true }
+  { timestamps: true }
 );
 
 export const Attendence = mongoose.model("Attendence", attendenceSchema);
