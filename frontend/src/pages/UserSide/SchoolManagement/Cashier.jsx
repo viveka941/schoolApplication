@@ -235,6 +235,18 @@ const Cashier = memo(() => {
       {/* Cashier Actions */}
       <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
         <button
+          onClick={() => navigate("/showExamTable")}
+          className="bg-teal-600 hover:bg-teal-700 text-white py-3 px-4 rounded-lg transition shadow-md"
+        >
+          Create Exam timetable
+        </button>
+        <button
+          onClick={() => navigate("/examFrom")}
+          className="bg-teal-600 hover:bg-teal-700 text-white py-3 px-4 rounded-lg transition shadow-md"
+        >
+          Create Exam timetable
+        </button>
+        <button
           onClick={() => navigate("/addClass")}
           className="bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-4 rounded-lg transition shadow-md"
         >
