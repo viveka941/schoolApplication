@@ -8,7 +8,7 @@ function ExamTimeTable() {
   useEffect(() => {
     async function allExam() {
       try {
-        const res = await axios.get("http://localhost:5000/api/exam/class");
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_USER_URL}/api/exam/class`);
         setExams(res.data.exams);
         // Select first exam by default
         if (res.data.exams.length > 0) {

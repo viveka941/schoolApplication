@@ -16,10 +16,10 @@ function AddTeacher() {
   const { allClass } = useAllData();
 
   const onSubmit = async (data) => {
-    console.log({ ...data, userId }); // Include userId with form data
+   
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/teacher/addTeacher",
+        `${import.meta.env.VITE_BACKEND_USER_URL}/api/teacher/addTeacher`,
         { ...data, userId },
         {
           headers: {

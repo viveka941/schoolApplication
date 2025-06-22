@@ -2,31 +2,58 @@ import { Result } from "../model/Result.model.js";
 
 export const addResult = async (req, res) => {
   try {
-    const { student, examId, mark } = req.body;
+    const { exam, class: className, subject, date, results } = req.body;
 
-    // Check for missing fields
+    // Validate required fields
     if (
-      !student ||
-      !examId ||
-      !mark ||
-      !Array.isArray(mark) ||
-      mark.length === 0
+      !exam ||
+      !className ||
+      !subject ||
+      !date ||
+      !Array.isArray(results) ||
+      results.length === 0
     ) {
-      return res.status(403).json({
-        message: "Required fields are missing",
+      return res.status(400).json({
+        message: "Required fields are missing or invalid",
         success: false,
       });
     }
 
-    const newResult = await Result.create({ student, examId, mark });
+    // Validate each student result
+    for (const studentResult of results) {
+      const { studentId, name, vivaMark, writtenMark, totalObtained } =
+        studentResult;
 
-    return res.status(200).json({
-      message: "Result added successfully",
+      if (
+        !studentId ||
+        !name ||
+        vivaMark === undefined ||
+        writtenMark === undefined ||
+        totalObtained === undefined
+      ) {
+        return res.status(400).json({
+          message:
+            "Each result must include studentId, name, vivaMark, writtenMark, totalObtained",
+          success: false,
+        });
+      }
+    }
+
+    const newResult = await Result.create({
+      exam,
+      class: className,
+      subject,
+      date,
+      results,
+    });
+
+    return res.status(201).json({
+      message: "Subject-wise result added successfully",
       success: true,
-      result: newResult,
+      data: newResult,
     });
   } catch (error) {
-    console.log("Server error: " + error);
+    console.error("Server error:", error);
     return res.status(500).json({
       message: "Internal server error",
       success: false,

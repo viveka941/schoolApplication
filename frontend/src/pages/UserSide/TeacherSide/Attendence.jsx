@@ -15,7 +15,9 @@ function Attendence() {
     async function AllStudent() {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/class/allStudent/${className}`
+          `${
+            import.meta.env.VITE_BACKEND_USER_URL
+          }/api/class/allStudent/${className}`
         );
         setClassId(res.data.classId)
         setAllList(res.data.list);
@@ -50,7 +52,7 @@ function Attendence() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/attendence/addAttendence",
+       `${import.meta.env.VITE_BACKEND_USER_URL}/api/attendence/addAttendence`,
         formattedData
       );
       alert("Attendence mark done");

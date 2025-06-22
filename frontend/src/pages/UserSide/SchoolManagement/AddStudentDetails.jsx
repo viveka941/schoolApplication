@@ -16,7 +16,7 @@ function AddStudentDetails() {
   useEffect(() => {
     const getAllClass = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/class/allClass");
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_USER_URL}/api/class/allClass`);
         setAllClass(res.data.allClass);
       } catch (error) {
         console.log("server is not responding " + error);
@@ -30,7 +30,7 @@ function AddStudentDetails() {
  
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/student/addStudnet",
+       `${import.meta.env.VITE_BACKEND_USER_URL}/api/student/addStudnet`,
         { ...data, userId },
         {
           headers: {

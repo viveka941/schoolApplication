@@ -19,7 +19,7 @@ function Login() {
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/user/userlogin",
+        `${import.meta.env.VITE_BACKEND_USER_URL}/api/user/userlogin`,
         data,
         {
           headers: {

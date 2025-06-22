@@ -12,7 +12,7 @@ function ClassWiseData() {
     async function AllStudentData() {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/student/allStudent"
+          `${import.meta.env.VITE_BACKEND_USER_URL}/api/student/allStudent`
         );
         const students = res.data.list;
        

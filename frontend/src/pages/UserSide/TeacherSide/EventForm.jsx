@@ -17,7 +17,7 @@ function EventForm() {
     try {
       const payload = { ...data, createdBy: teacherId };
       const res = await axios.post(
-        "http://localhost:5000/api/event/addEvent",
+        `${import.meta.env.VITE_BACKEND_USER_URL}/api/event/addEvent`,
         payload,
         {
           headers: {

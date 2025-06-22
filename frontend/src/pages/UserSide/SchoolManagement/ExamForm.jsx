@@ -39,7 +39,7 @@ function ExamForm() {
       };
 
       const res = await axios.post(
-        "http://localhost:5000/api/exam/create",
+        `${import.meta.env.VITE_BACKEND_USER_URL}/api/exam/create`,
         formattedData,
         {
           headers: {

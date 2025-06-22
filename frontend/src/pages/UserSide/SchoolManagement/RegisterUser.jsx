@@ -16,7 +16,7 @@ function RegisterUser() {
   const onSubmit = async (data) => {
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_USER_URL}/addUser`,
+        `${import.meta.env.VITE_BACKEND_USER_URL}/api/user/addUser`,
         data,
         {
           headers: {
@@ -25,8 +25,7 @@ function RegisterUser() {
         }
       );
 
-      console.log(res.data);
-
+     
       // Always show message from server
       setMessage(res.data.message);
 

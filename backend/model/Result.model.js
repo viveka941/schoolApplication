@@ -2,27 +2,43 @@ import mongoose from "mongoose";
 
 const resultSchema = mongoose.Schema(
   {
-    student: {
-      type: mongoose.Types.ObjectId,
-      ref: "Student",
-      required: true,
-    },
-    examId: {
+    exam: {
       type: mongoose.Types.ObjectId,
       ref: "Exam",
       required: true,
     },
-    mark: [
+    class: {
+      type: String,
+      required: true,
+    },
+    subject: {
+      type: String,
+      required: true,
+    },
+    date: {
+      type: Date,
+      required: true,
+    },
+    results: [
       {
-        subject: {
+        studentId: {
+          type: mongoose.Types.ObjectId,
+          ref: "Student",
+          required: true,
+        },
+        name: {
           type: String,
           required: true,
         },
-        score: {
+        vivaMark: {
           type: Number,
           required: true,
         },
-        total: {
+        writtenMark: {
+          type: Number,
+          required: true,
+        },
+        totalObtained: {
           type: Number,
           required: true,
         },

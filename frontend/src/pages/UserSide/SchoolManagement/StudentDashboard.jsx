@@ -142,7 +142,9 @@ function StudentDashboard() {
     async function attendance(userId, classId) {
       try {
         const res = await axios.post(
-          `http://localhost:5000/api/attendence/list/${classId}`,
+          `${
+            import.meta.env.VITE_BACKEND_USER_URL
+          }/api/attendence/list/${classId}`,
           { userId },
           {
             headers: {
@@ -175,7 +177,9 @@ function StudentDashboard() {
         setTimeTable([]); // reset previous data
 
         const res = await axios.get(
-          `http://localhost:5000/api/exam/getName/${className}`
+          `${
+            import.meta.env.VITE_BACKEND_USER_URL
+          }/api/exam/getName/${className}`
         );
 
         if (res.data.success) {

@@ -24,7 +24,7 @@ function NewClass() {
     setApiSuccess("");
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/class/addClass",
+        `${import.meta.env.VITE_BACKEND_USER_URL}/api/class/addClass`,
         data,
         {
           headers: {

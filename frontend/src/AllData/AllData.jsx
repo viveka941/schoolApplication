@@ -14,12 +14,15 @@ export const AllDataProvider = ({ children }) => {
   const [allEvent,setEvent]=useState()
   const [loading, setLoading] = useState(true);
   const [allStudent,setAllStudent] = useState([])
+  const [allExam,setAllExam] = useState([])
 
   // Fetch Classes
   useEffect(() => {
     async function fetchClasses() {
       try {
-        const res = await axios.get("http://localhost:5000/api/class/allClass");
+        const res = await axios.get(
+          `${import.meta.env.VITE_BACKEND_USER_URL}/api/class/allClass`
+        );
         setAllClass(res.data.allClass || []);
       } catch (error) {
         console.error("Error fetching classes:", error.message);
@@ -33,7 +36,7 @@ export const AllDataProvider = ({ children }) => {
     async function fetchTeachers() {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/teacher/allTeacher"
+          `${import.meta.env.VITE_BACKEND_USER_URL}/api/teacher/allTeacher`
         );
         setAllTeacher(res.data.list || []);
       } catch (error) {
@@ -49,7 +52,7 @@ export const AllDataProvider = ({ children }) => {
       // setLoading(true);
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/timetable/allTimeTable"
+          `${import.meta.env.VITE_BACKEND_USER_URL}/api/timetable/allTimeTable`
         );
 
         setAllTimeTable(res.data.timetable);
@@ -67,7 +70,9 @@ export const AllDataProvider = ({ children }) => {
   useEffect(() => {
     async function list() {
       try {
-        const res = await axios.get("http://localhost:5000/api/event/allEvent");
+        const res = await axios.get(
+          `${import.meta.env.VITE_BACKEND_USER_URL}/api/event/allEvent`
+        );
         setEvent(res.data.list)
       } catch (error) {
         console.log("server is not responding" + error);
@@ -84,7 +89,7 @@ export const AllDataProvider = ({ children }) => {
     async function stlist() {
       try {
         const res = await axios.get(
-          " http://localhost:5000/api/student/allStudent"
+          `${import.meta.env.VITE_BACKEND_USER_URL}/api/student/allStudent`
         );
         setAllStudent(res.data.list);
       } catch (error) {
@@ -99,6 +104,19 @@ export const AllDataProvider = ({ children }) => {
     stlist();
   }, []);
 
+  useEffect(() => {
+    async function allExam() {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_USER_URL}/api/exam/class`);
+        setAllExam(res.data.exams);
+        
+      } catch (error) {
+        console.log("Exams not found", error);
+      }
+    }
+    allExam();
+  }, []);
+
   return (
     <AllDataContext.Provider
       value={{
@@ -108,6 +126,7 @@ export const AllDataProvider = ({ children }) => {
         loading,
         allEvent,
         allStudent,
+        allExam,
       }}
     >
       {children}

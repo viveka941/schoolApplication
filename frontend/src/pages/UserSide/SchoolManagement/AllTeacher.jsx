@@ -12,7 +12,7 @@ export default function AllTeachers() {
     async function allTeacherList() {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/teacher/allTeacher"
+          `${import.meta.env.VITE_BACKEND_USER_URL}/api/teacher/allTeacher`
         );
         setTeacher(res.data.list);
       } catch (error) {

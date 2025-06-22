@@ -79,7 +79,7 @@ function TimeTableForm() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/timetable/addTimeTable",
+        `${import.meta.env.VITE_BACKEND_USER_URL}/api/timetable/addTimeTable`,
         formattedData,
         {
           headers: {

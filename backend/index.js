@@ -10,9 +10,13 @@ import resultRoute from "./router/result.route.js";
 import timetableRoute from "./router/timetable.route.js";
 import eventRoute from "./router/event.route.js";
 import cors from "cors";
+import dotenv from 'dotenv'
+
+dotenv.config()
+
 const app = express();
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: [process.env.FRONTEND_URL],
   credentials: true,
 };
 app.use(cors(corsOptions));

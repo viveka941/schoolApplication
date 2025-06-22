@@ -19,8 +19,7 @@ function TeacherProfile() {
       "B.Ed. in Secondary Education",
       "Certified Advanced Mathematics Instructor",
     ],
-    
-   
+
     stats: {
       yearsExperience: 8,
       studentsTaught: 420,
@@ -29,30 +28,28 @@ function TeacherProfile() {
     },
   };
 
-  const location = useLocation()
-  const {id} = useParams()
+  const location = useLocation();
+  const { id } = useParams();
 
-  const navigate = useNavigate()
-  const [allteacherData,setallTeacherData] = useState([])
-  
-  
-  useEffect(()=>{
-   const allData = async()=>{
-    try {
-      const res = await axios.get(
-        `http://localhost:5000/api/user/getUserData/${id}`
-      );
-      setallTeacherData({...res.data.user ,...res.data.allData} )
-     
-    } catch (error) {
-      console.log(error)
-    }
-   }
-   allData()
-  },[])
-  
+  const navigate = useNavigate();
+  const [allteacherData, setallTeacherData] = useState([]);
+
+  useEffect(() => {
+    const allData = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_BACKEND_USER_URL}/api/user/getUserData/${id}`
+        );
+        setallTeacherData({ ...res.data.user, ...res.data.allData });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    allData();
+  }, []);
+
   const teacherData = location.state?.allData || allteacherData;
- console.log(allteacherData)
+  console.log(allteacherData);
   const { allTimeTable } = useAllData();
 
   const matchedSlots = [];
@@ -69,7 +66,6 @@ function TeacherProfile() {
     });
   });
 
- 
   const groupedByDay = {};
 
   matchedSlots.forEach((slot) => {
@@ -86,9 +82,6 @@ function TeacherProfile() {
     ),
   }));
 
-  
-
- 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
       <div className="max-w-6xl mx-auto">
@@ -371,12 +364,35 @@ function TeacherProfile() {
             </span>
           </h3>
         </div>
+
         <div className="mt-8 bg-gradient-to-br from-blue-50 to-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition duration-300">
           <h3
             onClick={() => navigate(`/eventFrom/${allteacherData?.name}`)}
             className="text-xl font-semibold text-blue-700 cursor-pointer hover:underline"
           >
-            Create Event
+            Create Event{" "}
+            <span className="font-bold text-blue-900">
+              {allteacherData?.classId?.name || "Class"}
+            </span>
+          </h3>
+        </div>
+        <div className="mt-8 bg-gradient-to-br from-blue-50 to-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition duration-300">
+          <h3
+            onClick={() => navigate(`/showExamTable`)}
+            className="text-xl font-semibold text-blue-700 cursor-pointer hover:underline"
+          >
+            All Exam Time table
+          </h3>
+        </div>
+
+        <div className="mt-8 bg-gradient-to-br from-blue-50 to-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition duration-300">
+          <h3
+            onClick={() =>
+              navigate(`/resultData`)
+            }
+            className="text-xl font-semibold text-blue-700 cursor-pointer hover:underline"
+          >
+            Update Mark{" "}
             <span className="font-bold text-blue-900">
               {allteacherData?.classId?.name || "Class"}
             </span>
