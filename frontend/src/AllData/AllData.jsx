@@ -7,11 +7,13 @@ const AllDataContext = createContext();
 
 // 2. Provider Component
 export const AllDataProvider = ({ children }) => {
+  
   const [allClass, setAllClass] = useState([]);
   const [allTeacher, setAllTeacher] = useState([]);
   const [allTimeTable, setAllTimeTable] = useState([]);
   const [allEvent,setEvent]=useState()
   const [loading, setLoading] = useState(true);
+  const [allStudent,setAllStudent] = useState([])
 
   // Fetch Classes
   useEffect(() => {
@@ -78,10 +80,35 @@ export const AllDataProvider = ({ children }) => {
     }
     list();
   }, []);
+  useEffect(() => {
+    async function stlist() {
+      try {
+        const res = await axios.get(
+          " http://localhost:5000/api/student/allStudent"
+        );
+        setAllStudent(res.data.list);
+      } catch (error) {
+        console.log("server is not responding" + error);
+        return res.status(500).json({
+          message: "Internal server error",
+          success: false,
+          error: error.message,
+        });
+      }
+    }
+    stlist();
+  }, []);
 
   return (
     <AllDataContext.Provider
-      value={{ allClass, allTeacher, allTimeTable, loading, allEvent }}
+      value={{
+        allClass,
+        allTeacher,
+        allTimeTable,
+        loading,
+        allEvent,
+        allStudent,
+      }}
     >
       {children}
     </AllDataContext.Provider>

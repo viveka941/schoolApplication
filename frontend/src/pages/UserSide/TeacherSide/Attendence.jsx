@@ -20,6 +20,7 @@ function Attendence() {
         setClassId(res.data.classId)
         setAllList(res.data.list);
       
+      
       } catch (error) {
         setMessage(res.data.message || "Error fetching student list");
         console.log("Error fetching student list:", error);
@@ -52,6 +53,7 @@ function Attendence() {
         "http://localhost:5000/api/attendence/addAttendence",
         formattedData
       );
+      alert("Attendence mark done");
       console.log("Saved:", res.data);
       if (res.data.success) {
         setMessage(res.data.message);

@@ -2,12 +2,12 @@ import { Exam } from "../model/Exam.model.js";
 
 export const newExam = async (req, res) => {
   try {
-    const { name, classId, subjects } = req.body;
+    const { name, className, subjects } = req.body;
 
     // Validate required fields
     if (
       !name ||
-      !classId ||
+      !className ||
       !subjects ||
       !Array.isArray(subjects) ||
       subjects.length === 0
@@ -73,7 +73,7 @@ export const newExam = async (req, res) => {
     // Create exam document
     const exam = new Exam({
       name,
-      classId,
+      className,
       subjects: formattedSubjects,
     });
 
@@ -100,9 +100,7 @@ export const allExam = async (req, res) => {
 
     // Find exams and populate class details
     const exams = await Exam.find()
-      .populate("classId", "name")
-      .sort({ createdAt: -1 });
-
+    
     return res.status(200).json({
       message: "Exam timetables fetched successfully",
       success: true,
@@ -121,9 +119,16 @@ export const allExam = async (req, res) => {
 // Get single exam by ID
 export const getExam = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { className } = req.params;
 
-    const exam = await Exam.findById(id).populate("classId", "name");
+    if (!className) {
+      return res.status(400).json({
+        message: "className parameter is required",
+        success: false,
+      });
+    }
+
+    const exam = await Exam.findOne({ className: className.trim() });
 
     if (!exam) {
       return res.status(404).json({
@@ -135,10 +140,10 @@ export const getExam = async (req, res) => {
     return res.status(200).json({
       message: "Exam fetched successfully",
       success: true,
-      exam: exam,
+      exam,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching exam:", error);
     return res.status(500).json({
       message: "Internal server error",
       success: false,
@@ -146,6 +151,7 @@ export const getExam = async (req, res) => {
     });
   }
 };
+
 
 // Update exam timetable
 export const updateExam = async (req, res) => {

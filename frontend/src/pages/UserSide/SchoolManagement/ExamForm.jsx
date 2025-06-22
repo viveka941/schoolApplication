@@ -2,8 +2,10 @@ import { useAllData } from "@/AllData/AllData";
 import axios from "axios";
 import React from "react";
 import { useForm, useFieldArray } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 function ExamForm() {
+  const navigate = useNavigate()
   const { allClass } = useAllData();
   const {
     register,
@@ -47,6 +49,7 @@ function ExamForm() {
       );
       alert(res.data.message);
       reset();
+      navigate("/cashier")
     } catch (error) {
       console.error("Error creating exam:", error);
       alert(error.response?.data?.message || "Failed to create exam timetable");
@@ -93,23 +96,23 @@ function ExamForm() {
             Class *
           </label>
           <select
-            {...register("classId", {
+            {...register("className", {
               required: "Class selection is required",
             })}
             className={`mt-1 block w-full border rounded-md px-3 py-2 shadow-sm ${
-              errors.classId ? "border-red-500" : "border-gray-300"
+              errors.className ? "border-red-500" : "border-gray-300"
             }`}
           >
             <option value="">Select class</option>
             {allClass.map((data) => (
-              <option key={data._id} value={data._id}>
+              <option key={data._id} value={data.name}>
                 {data.name}
               </option>
             ))}
           </select>
           {errors.classId && (
             <p className="text-red-500 text-sm mt-1">
-              {errors.classId.message}
+              {errors.className.message}
             </p>
           )}
         </div>

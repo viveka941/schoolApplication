@@ -72,7 +72,7 @@ function ExamTimeTable() {
         >
           {exams.map((exam) => (
             <option key={exam._id} value={exam._id}>
-              {exam.name} - {exam.classId.name}
+              {exam.name} - {exam.className}
             </option>
           ))}
         </select>
@@ -85,7 +85,7 @@ function ExamTimeTable() {
         </h1>
         <div className="flex justify-center items-center gap-4 text-gray-600">
           <p className="bg-blue-100 px-3 py-1 rounded-full text-sm">
-            Class: {selectedExam.classId.name}
+            Class: {selectedExam.className}
           </p>
           <p className="bg-green-100 px-3 py-1 rounded-full text-sm">
             Exam ID: {selectedExam._id}

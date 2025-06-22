@@ -134,6 +134,7 @@ function StudentDashboard() {
   console.log(filterTimeTable);
 
   const classId = allStDetails.classId?._id;
+  const className = allStDetails.classId?.name;
   const userId = id;
   const [attendanceData, setAttendence] = useState();
   console.log(attendanceData?.attendancePercentage);
@@ -161,6 +162,65 @@ function StudentDashboard() {
     }
   }, [userId, classId]);
 
+  const [timeTable, setTimeTable] = useState([]);
+  const [errmsg, seterrmsg] = useState("");
+  console.log(timeTable);
+
+  useEffect(() => {
+    if (!className) return;
+
+    async function getExamTimeTable() {
+      try {
+        seterrmsg(""); // clear previous error
+        setTimeTable([]); // reset previous data
+
+        const res = await axios.get(
+          `http://localhost:5000/api/exam/getName/${className}`
+        );
+
+        if (res.data.success) {
+          setTimeTable(res.data.exam); // set valid exam data
+          console.log("Exam Data:", res.data.exam);
+        } else {
+          seterrmsg(res.data.message || "Something went wrong.");
+        }
+      } catch (error) {
+        console.error("Timetable fetch error:", error);
+        seterrmsg(
+          error.response?.data?.message ||
+            "Failed to fetch timetable. Please try again later."
+        );
+      }
+    }
+
+    getExamTimeTable();
+  }, [className]);
+  const getDuration = (start, end) => {
+    const [startH, startM] = start.split(":").map(Number);
+    const [endH, endM] = end.split(":").map(Number);
+
+    let startMinutes = startH * 60 + startM;
+    let endMinutes = endH * 60 + endM;
+
+    let diff = endMinutes - startMinutes;
+    if (diff < 0) diff += 24 * 60; // Handle overnight exams
+
+    const hours = Math.floor(diff / 60);
+    const minutes = diff % 60;
+
+    return `${hours > 0 ? hours + " hr " : ""}${minutes} min`;
+  };
+
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString("en-IN", {
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
@@ -180,8 +240,7 @@ function StudentDashboard() {
               <div className="ml-4">
                 <div className="font-medium">{allStDetails.name}</div>
                 <div className="text-sm text-gray-600">
-                  {allStDetails.classId?.name || "N/A"} |{" "}
-                  {allStDetails._id?.slice(-4)}
+                  {className || "N/A"} | {allStDetails._id?.slice(-4)}
                 </div>
                 <div className="text-sm text-gray-600">
                   {allStDetails.gender} | {allStDetails.phone}
@@ -415,9 +474,8 @@ function StudentDashboard() {
               ))}
             </div>
           </div>
-
-          {/* Weekly Schedule */}
         </div>
+
         <div>
           <div className="lg:col-span-1 bg-white rounded-xl shadow-md p-6">
             <div className="flex justify-between items-center mb-6">
@@ -454,6 +512,70 @@ function StudentDashboard() {
                     </ul>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div className="lg:col-span-1 bg-white rounded-xl shadow-md p-6">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-bold text-gray-800">Exam Schedule</h2>
+              <button className="text-blue-600 text-sm font-medium">
+                Download
+              </button>
+            </div>
+
+            <div>
+              <div className="overflow-x-auto mt-6 shadow-md rounded-lg border">
+                {timeTable?.subjects?.length > 0 ? (
+                  <table className="min-w-full text-sm text-left text-gray-700">
+                    <thead className="bg-blue-100 text-blue-900 uppercase text-xs font-semibold tracking-wider">
+                      <tr>
+                        <th className="px-6 py-3 border-b">Subject</th>
+                        <th className="px-6 py-3 border-b">Date</th>
+                        <th className="px-6 py-3 border-b">Time</th>
+                        <th className="px-6 py-3 border-b">Duration</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {timeTable.subjects.map((subject, index) => (
+                        <tr
+                          key={subject._id}
+                          className={
+                            index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                          }
+                        >
+                          <td className="px-6 py-4 border-b font-medium">
+                            {subject.subject}
+                          </td>
+                          <td className="px-6 py-4 border-b">
+                            {formatDate(subject.date)}
+                          </td>
+                          <td className="px-6 py-4 border-b">
+                            <div className="flex items-center gap-2">
+                              <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-semibold">
+                                {subject.startTime}
+                              </span>
+                              <span className="text-gray-500">→</span>
+                              <span className="bg-red-100 text-red-800 px-2 py-1 rounded text-xs font-semibold">
+                                {subject.endTime}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 border-b">
+                            <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs font-semibold">
+                              {getDuration(subject.startTime, subject.endTime)}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <div className="text-center text-gray-500 py-10">
+                    No exam timetable available.
+                  </div>
+                )}
               </div>
             </div>
           </div>

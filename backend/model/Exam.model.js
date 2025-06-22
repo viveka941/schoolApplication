@@ -6,9 +6,8 @@ const examSchema = mongoose.Schema(
       type: String,
       required: [true, "Exam name is required"],
     },
-    classId: {
-      type: mongoose.Types.ObjectId,
-      ref: "Class",
+    className: {
+      type: String,
       required: [true, "Class reference is required"],
     },
     subjects: [
