@@ -51,7 +51,7 @@ function Login() {
             navigate("/cashier");
             break;
           case "Principal":
-            navigate("/principal-dashboard");
+            navigate("/cashier");
             break;
           default:
             alert("Role not recognized");

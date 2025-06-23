@@ -26,6 +26,7 @@ import EventForm from "./pages/UserSide/TeacherSide/EventForm";
 import ExamForm from "./pages/UserSide/SchoolManagement/ExamForm";
 import ExamTimeTable from "./pages/UserSide/SchoolManagement/ExamTimeTable";
 import ResultData from "./pages/UserSide/SchoolManagement/ResultData";
+import StudentResult from "./pages/UserSide/Student/StudentResult";
 
 function App() {
   const appRoute = createBrowserRouter([
@@ -53,6 +54,7 @@ function App() {
     { path: "/examFrom", element: <ExamForm /> },
     { path: "/showExamTable", element: <ExamTimeTable /> },
     { path: "/resultData", element: <ResultData /> },
+    {path:"/stResult",element:<StudentResult/>}
   ]);
 
   return (

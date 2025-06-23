@@ -392,9 +392,9 @@ function TeacherProfile() {
             }
             className="text-xl font-semibold text-blue-700 cursor-pointer hover:underline"
           >
-            Update Mark{" "}
+            Update Exam Mark{" "}
             <span className="font-bold text-blue-900">
-              {allteacherData?.classId?.name || "Class"}
+             
             </span>
           </h3>
         </div>

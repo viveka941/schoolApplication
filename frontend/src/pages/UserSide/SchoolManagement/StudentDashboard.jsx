@@ -135,9 +135,10 @@ function StudentDashboard() {
 
   const classId = allStDetails.classId?._id;
   const className = allStDetails.classId?.name;
+
   const userId = id;
   const [attendanceData, setAttendence] = useState();
-  console.log(attendanceData?.attendancePercentage);
+
   useEffect(() => {
     async function attendance(userId, classId) {
       try {
@@ -225,6 +226,56 @@ function StudentDashboard() {
     });
   };
 
+  const [result, setResult] = useState([]);
+  const name = allStDetails?.name;
+  const [ResultPercentage, setResultPercentage] = useState();
+
+  useEffect(() => {
+    async function getResult(name, className) {
+      try {
+        const res = await axios.post(
+          "http://localhost:5000/api/result/stData",
+          { name, className },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        console.log("Student Result Data:", res.data.list);
+        if (res.data.success) {
+          setResult(res.data.list);
+        }
+      } catch (error) {
+        console.error(
+          "Error fetching result:",
+          error.response?.data || error.message
+        );
+      }
+    }
+
+    if (name && className) {
+      getResult(name, className);
+    }
+
+   
+  }, [name, className]);
+
+  useEffect(() => {
+    const overAllPercentage = (result) => {
+      const totalSub = result.length * 100;
+
+      const totalObt = result.reduce(
+        (sum, curr) => sum + curr.student.totalObtained,
+        0
+      );
+      const resultSt = (totalObt / totalSub) * 100;
+      setResultPercentage(resultSt);
+    };
+    overAllPercentage(result);
+  },[result]);
+
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
@@ -236,13 +287,13 @@ function StudentDashboard() {
               <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
                 Student Dashboard
               </h1>
-              <p className="text-gray-600">Welcome back, {allStDetails.name}</p>
+              <p className="text-gray-600">Welcome back, {name}</p>
             </div>
 
             <div className="mt-4 md:mt-0 bg-white rounded-lg shadow-sm p-4 flex items-center">
               <div className="bg-gray-200 border-2 border-dashed rounded-full w-16 h-16" />
               <div className="ml-4">
-                <div className="font-medium">{allStDetails.name}</div>
+                <div className="font-medium">{name}</div>
                 <div className="text-sm text-gray-600">
                   {className || "N/A"} | {allStDetails._id?.slice(-4)}
                 </div>
@@ -275,9 +326,14 @@ function StudentDashboard() {
               {attendanceData?.attendancePercentage}
             </p>
           </div>
-          <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500">
+          <div
+            onClick={() =>
+              navigate("/stResult", { state: { StudentResultData: result } })
+            }
+            className="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500"
+          >
             <h3 className="text-gray-500 text-sm font-medium">Overall Grade</h3>
-            <p className="text-2xl font-bold mt-2">{student.overallGrade}</p>
+            <p className="text-2xl font-bold mt-2">{ResultPercentage}%</p>
           </div>
           <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-yellow-500">
             <h3 className="text-gray-500 text-sm font-medium">Next Class</h3>
@@ -389,26 +445,26 @@ function StudentDashboard() {
             </div>
 
             <div className="space-y-4">
-              {performanceData?.map((subject, index) => (
+              {result?.map((subject, index) => (
                 <div key={index}>
                   <div className="flex justify-between mb-1">
                     <span className="font-medium">{subject.subject}</span>
                     <span className="font-bold">
-                      {subject.grade} ({subject.progress}%)
+                      {100} ({subject?.student.totalObtained}%)
                     </span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2.5">
                     <div
                       className={`h-2.5 rounded-full ${
-                        subject.progress >= 90
+                        subject?.student.totalObtained >= 90
                           ? "bg-green-600"
-                          : subject.progress >= 80
+                          : subject?.student.totalObtained >= 80
                           ? "bg-blue-600"
-                          : subject.progress >= 70
+                          : subject?.student.totalObtained >= 70
                           ? "bg-yellow-500"
                           : "bg-red-600"
                       }`}
-                      style={{ width: `${subject.progress}%` }}
+                      style={{ width: `${subject?.student.totalObtained}%` }}
                     ></div>
                   </div>
                 </div>
