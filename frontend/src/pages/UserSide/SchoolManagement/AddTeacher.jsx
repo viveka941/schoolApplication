@@ -36,6 +36,13 @@ function AddTeacher() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+      <button
+        onClick={() => window.history.back()}
+        className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out shadow-md active:scale-95"
+      >
+        ← Go Back
+      </button>
+
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white shadow-md rounded-xl p-8 w-full max-w-lg"

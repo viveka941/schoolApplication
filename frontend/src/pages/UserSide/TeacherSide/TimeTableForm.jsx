@@ -101,6 +101,12 @@ function TimeTableForm() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col items-center p-4 md:p-6">
+      <button
+        onClick={() => window.history.back()}
+        className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out shadow-md active:scale-95"
+      >
+        ← Go Back
+      </button>
       <div className="w-full max-w-2xl bg-white shadow-xl rounded-2xl p-6 md:p-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-indigo-700">
@@ -130,7 +136,9 @@ function TimeTableForm() {
                 ))}
               </select>
               {errors.class && (
-                <p className="mt-1 text-sm text-red-600">{errors.class.message}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.class.message}
+                </p>
               )}
             </div>
 
@@ -152,7 +160,9 @@ function TimeTableForm() {
                 <option value="Saturday">Saturday</option>
               </select>
               {errors.day && (
-                <p className="mt-1 text-sm text-red-600">{errors.day.message}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.day.message}
+                </p>
               )}
             </div>
           </div>
@@ -160,21 +170,35 @@ function TimeTableForm() {
           {/* Dynamic Slots */}
           <div className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold text-gray-800">Time Slots</h2>
+              <h2 className="text-xl font-semibold text-gray-800">
+                Time Slots
+              </h2>
               <button
                 type="button"
                 onClick={addSlot}
                 className="flex items-center text-indigo-600 hover:text-indigo-800 font-medium"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-1"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                    clipRule="evenodd"
+                  />
                 </svg>
                 Add Slot
               </button>
             </div>
 
             {slots.map((slot, index) => (
-              <div key={index} className="border border-gray-200 rounded-xl p-5 bg-gray-50 shadow-sm relative">
+              <div
+                key={index}
+                className="border border-gray-200 rounded-xl p-5 bg-gray-50 shadow-sm relative"
+              >
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-lg font-medium text-gray-700">
                     Slot {index + 1}
@@ -185,8 +209,19 @@ function TimeTableForm() {
                       onClick={() => removeSlot(index)}
                       className="text-red-500 hover:text-red-700"
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        />
                       </svg>
                     </button>
                   )}
@@ -195,7 +230,9 @@ function TimeTableForm() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* Start Time */}
                   <div>
-                    <label className="block text-sm text-gray-600 mb-1">Start Time</label>
+                    <label className="block text-sm text-gray-600 mb-1">
+                      Start Time
+                    </label>
                     <input
                       type="time"
                       value={slot.startTime}
@@ -209,7 +246,9 @@ function TimeTableForm() {
 
                   {/* End Time */}
                   <div>
-                    <label className="block text-sm text-gray-600 mb-1">End Time</label>
+                    <label className="block text-sm text-gray-600 mb-1">
+                      End Time
+                    </label>
                     <input
                       type="time"
                       value={slot.endTime}
@@ -220,13 +259,17 @@ function TimeTableForm() {
                       required
                     />
                     {slotErrors[index] && (
-                      <p className="mt-1 text-sm text-red-600">{slotErrors[index]}</p>
+                      <p className="mt-1 text-sm text-red-600">
+                        {slotErrors[index]}
+                      </p>
                     )}
                   </div>
 
                   {/* Subject */}
                   <div className="md:col-span-2">
-                    <label className="block text-sm text-gray-600 mb-1">Subject</label>
+                    <label className="block text-sm text-gray-600 mb-1">
+                      Subject
+                    </label>
                     <input
                       type="text"
                       value={slot.subject}
@@ -241,7 +284,9 @@ function TimeTableForm() {
 
                   {/* Teacher */}
                   <div className="md:col-span-2">
-                    <label className="block text-sm text-gray-600 mb-1">Teacher</label>
+                    <label className="block text-sm text-gray-600 mb-1">
+                      Teacher
+                    </label>
                     <select
                       value={slot.teacher}
                       onChange={(e) =>

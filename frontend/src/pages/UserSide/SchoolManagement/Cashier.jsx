@@ -96,6 +96,13 @@ const Cashier = memo(() => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-6">
+      <button
+        onClick={() => window.history.back()}
+        className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out shadow-md active:scale-95"
+      >
+        ← Go Back
+      </button>
+
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
@@ -180,7 +187,10 @@ const Cashier = memo(() => {
           title="Staff"
           total={staffData.total}
           color="text-purple-600"
-          items={staffData.byDepartment}
+          items={staffData.byDepartment?.map((cls) => ({
+            name: cls.department,
+            count: cls.count?.length || 0,
+          }))}
           onViewAll={() => navigate("/login")}
           onAddNew={() => navigate("/addUser")}
           icon="👨‍💼"

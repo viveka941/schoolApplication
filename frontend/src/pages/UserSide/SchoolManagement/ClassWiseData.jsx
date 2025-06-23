@@ -67,6 +67,13 @@ function ClassWiseData() {
 
   return (
     <div className="p-6">
+      <button
+        onClick={() => window.history.back()}
+        className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out shadow-md active:scale-95"
+      >
+        ← Go Back
+      </button>
+
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-800">
           Class-wise Student Data
@@ -138,10 +145,8 @@ function ClassWiseData() {
           <tbody className="bg-white divide-y divide-gray-200">
             {filteredStudents.length > 0 ? (
               filteredStudents.map((student) => (
-                
                 <tr
                   key={student.id}
-                 
                   onClick={() => navigate(`/studentProfile/${student.roll}`)}
                   className="hover:bg-gray-50"
                 >
@@ -213,7 +218,10 @@ function ClassWiseData() {
         </div>
 
         <div className="flex space-x-2">
-          <button onClick={()=>navigate("/cashier")} className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
+          <button
+            onClick={() => navigate("/cashier")}
+            className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300"
+          >
             Home
           </button>
           <button className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">

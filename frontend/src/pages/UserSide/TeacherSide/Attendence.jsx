@@ -58,7 +58,8 @@ function Attendence() {
       alert("Attendence mark done");
       console.log("Saved:", res.data);
       if (res.data.success) {
-        setMessage(res.data.message);
+        alert(res.data.message);
+       
         
       }
       reset();
@@ -70,6 +71,13 @@ function Attendence() {
 
   return (
     <div className="p-4">
+      <button
+        onClick={() => window.history.back()}
+        className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out shadow-md active:scale-95"
+      >
+        ← Go Back
+      </button>
+
       <h1 className="text-xl font-bold mb-4">
         {className} - All Student Attendance List
       </h1>

@@ -53,6 +53,12 @@ function ShowTimeTable() {
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
+      <button
+        onClick={() => window.history.back()}
+        className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out shadow-md active:scale-95"
+      >
+        ← Go Back
+      </button>
       <h1 className="text-3xl font-bold text-center mb-8 text-indigo-800">
         Class Timetables
       </h1>

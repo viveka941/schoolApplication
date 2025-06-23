@@ -48,6 +48,13 @@ export default function AllTeachers() {
   
   return (
     <div className="p-6">
+      <button
+        onClick={() => window.history.back()}
+        className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out shadow-md active:scale-95"
+      >
+        ← Go Back
+      </button>
+
       {/* Header + Search + Filter */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-800">All Teachers</h1>
@@ -139,7 +146,9 @@ export default function AllTeachers() {
               filteredTeachers.map((teacher) => (
                 <tr
                   key={teacher._id}
-                  onClick={() => navigate(`/teacherProfile/${teacher.userId._id}`)}
+                  onClick={() =>
+                    navigate(`/teacherProfile/${teacher.userId._id}`)
+                  }
                   className="hover:bg-gray-50"
                 >
                   {/* ID */}

@@ -84,6 +84,13 @@ function TeacherProfile() {
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
+      <button
+        onClick={() => window.history.back()}
+        className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out shadow-md active:scale-95"
+      >
+        ← Go Back
+      </button>
+
       <div className="max-w-6xl mx-auto">
         {/* Profile Header */}
         <div className="bg-white rounded-xl shadow-md overflow-hidden">
@@ -387,15 +394,10 @@ function TeacherProfile() {
 
         <div className="mt-8 bg-gradient-to-br from-blue-50 to-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition duration-300">
           <h3
-            onClick={() =>
-              navigate(`/resultData`)
-            }
+            onClick={() => navigate(`/resultData`)}
             className="text-xl font-semibold text-blue-700 cursor-pointer hover:underline"
           >
-            Update Exam Mark{" "}
-            <span className="font-bold text-blue-900">
-             
-            </span>
+            Update Exam Mark <span className="font-bold text-blue-900"></span>
           </h3>
         </div>
 

@@ -36,6 +36,12 @@ function EventForm() {
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-md mt-8">
+      <button
+        onClick={() => window.history.back()}
+        className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out shadow-md active:scale-95"
+      >
+        ← Go Back
+      </button>
       <h1 className="text-2xl font-bold mb-4">Create Event</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>

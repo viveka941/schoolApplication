@@ -115,7 +115,7 @@ function StudentDashboard() {
     async function Student() {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/user/getUserData/${id}`
+          `${import.meta.env.VITE_BACKEND_USER_URL}/api/user/getUserData/${id}`
         );
 
         setAllStDetails({ ...res.data.user, ...res.data.allData });
@@ -234,7 +234,7 @@ function StudentDashboard() {
     async function getResult(name, className) {
       try {
         const res = await axios.post(
-          "http://localhost:5000/api/result/stData",
+          `${import.meta.env.VITE_BACKEND_USER_URL}/api/result/stData`,
           { name, className },
           {
             headers: {
@@ -278,33 +278,158 @@ function StudentDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+      <button
+        onClick={() => window.history.back()}
+        className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out shadow-md active:scale-95"
+      >
+        ← Go Back
+      </button>
+
       <div className="max-w-7xl mx-auto">
         {/* Header */}
 
         {allStDetails && (
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
-            <div>
+            <div className="mb-4 md:mb-0">
               <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
                 Student Dashboard
               </h1>
-              <p className="text-gray-600">Welcome back, {name}</p>
+              <p className="text-gray-600 mt-1">Welcome back, {name}</p>
+
+              {/* Quick Stats */}
+              <div className="mt-4 flex space-x-4">
+                <div className="bg-blue-50 p-3 rounded-lg flex items-center">
+                  <div className="bg-blue-100 p-2 rounded-full mr-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-blue-600"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Class</p>
+                    <p className="font-semibold">{className || "N/A"}</p>
+                  </div>
+                </div>
+
+                <div className="bg-green-50 p-3 rounded-lg flex items-center">
+                  <div className="bg-green-100 p-2 rounded-full mr-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-green-600"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Status</p>
+                    <p className="font-semibold">Active</p>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="mt-4 md:mt-0 bg-white rounded-lg shadow-sm p-4 flex items-center">
-              <div className="bg-gray-200 border-2 border-dashed rounded-full w-16 h-16" />
-              <div className="ml-4">
-                <div className="font-medium">{name}</div>
-                <div className="text-sm text-gray-600">
-                  {className || "N/A"} | {allStDetails._id?.slice(-4)}
+            {/* Compact Profile Card */}
+            <div className="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden w-full md:w-auto">
+              <div className="p-4 flex items-start">
+                <div className="relative">
+                  <div className="bg-gradient-to-br from-blue-100 to-indigo-200 border-2 border-white rounded-xl w-14 h-14" />
+                  <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-1 shadow-md">
+                    <div className="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full w-5 h-5 flex items-center justify-center">
+                      <span className="text-white text-xs font-bold">S</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-sm text-gray-600">
-                  {allStDetails.gender} | {allStDetails.phone}
-                </div>
-                <div className="text-sm text-gray-600">
-                  {allStDetails.email}
-                </div>
-                <div className="text-sm text-gray-600">
-                  Dob: {allStDetails.dob?.split("T")[0]}
+
+                <div className="ml-4 flex-1 min-w-0">
+                  <div className="flex justify-between">
+                    <div>
+                      <h2 className="text-lg font-bold text-gray-800 truncate">
+                        {name}
+                      </h2>
+                      <div className="flex items-center mt-1">
+                        <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-0.5 rounded">
+                          ID: {allStDetails._id?.slice(-6)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-3 grid grid-cols-2 gap-2">
+                    <div className="flex items-center text-sm">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4 text-gray-500 mr-1"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                      </svg>
+                      <span className="text-gray-600 truncate text-xs">
+                        {allStDetails.email || "N/A"}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center text-sm">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4 text-gray-500 mr-1"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                      </svg>
+                      <span className="text-gray-600 text-xs">
+                        {allStDetails.phone || "N/A"}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center text-sm">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4 text-gray-500 mr-1"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      <span className="text-gray-600 text-xs">
+                        {allStDetails.dob?.split("T")[0] || "N/A"}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center text-sm">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4 text-gray-500 mr-1"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      <span className="text-gray-600 capitalize text-xs">
+                        {allStDetails.gender || "N/A"}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -333,7 +458,9 @@ function StudentDashboard() {
             className="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500"
           >
             <h3 className="text-gray-500 text-sm font-medium">Overall Grade</h3>
-            <p className="text-2xl font-bold mt-2">{ResultPercentage}%</p>
+            <p className="text-2xl font-bold mt-2">
+              {ResultPercentage || "0"}%{" "}
+            </p>
           </div>
           <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-yellow-500">
             <h3 className="text-gray-500 text-sm font-medium">Next Class</h3>
@@ -490,52 +617,6 @@ function StudentDashboard() {
           </div>
         </div>
 
-        {/* Announcements & Schedule */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
-          {/* Announcements */}
-          <div className="lg:col-span-2 bg-white rounded-xl shadow-md p-6">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold text-gray-800">
-                School Announcements
-              </h2>
-              <button className="text-blue-600 text-sm font-medium">
-                View All
-              </button>
-            </div>
-
-            <div className="space-y-6">
-              {allEvent?.map((event) => (
-                <div
-                  key={event._id}
-                  className="border-l-4 border-blue-500 pl-4 py-2 hover:bg-gray-50 p-3 rounded"
-                >
-                  <div className="flex justify-between">
-                    <h3 className="font-bold text-lg text-gray-800">
-                      {event.title}
-                    </h3>
-                    <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
-                      {new Date(event.date).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      })}
-                    </span>
-                  </div>
-                  <p className="mt-2 text-gray-600">{event.description}</p>
-                  {event.createdBy && (
-                    <p className="mt-1 text-sm text-gray-500">
-                      Created by:{" "}
-                      {typeof event.createdBy === "string"
-                        ? event.createdBy
-                        : event.createdBy.name}
-                    </p>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
         <div>
           <div className="lg:col-span-1 bg-white rounded-xl shadow-md p-6">
             <div className="flex justify-between items-center mb-6">
@@ -637,6 +718,52 @@ function StudentDashboard() {
                   </div>
                 )}
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Announcements & Schedule */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+          {/* Announcements */}
+          <div className="lg:col-span-2 bg-white rounded-xl shadow-md p-6">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-bold text-gray-800">
+                School Announcements
+              </h2>
+              <button className="text-blue-600 text-sm font-medium">
+                View All
+              </button>
+            </div>
+
+            <div className="space-y-6">
+              {allEvent?.map((event) => (
+                <div
+                  key={event._id}
+                  className="border-l-4 border-blue-500 pl-4 py-2 hover:bg-gray-50 p-3 rounded"
+                >
+                  <div className="flex justify-between">
+                    <h3 className="font-bold text-lg text-gray-800">
+                      {event.title}
+                    </h3>
+                    <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
+                      {new Date(event.date).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-gray-600">{event.description}</p>
+                  {event.createdBy && (
+                    <p className="mt-1 text-sm text-gray-500">
+                      Created by:{" "}
+                      {typeof event.createdBy === "string"
+                        ? event.createdBy
+                        : event.createdBy.name}
+                    </p>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         </div>

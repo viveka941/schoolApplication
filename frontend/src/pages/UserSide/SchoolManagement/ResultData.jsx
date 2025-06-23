@@ -85,7 +85,7 @@ function ResultData() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/result/addResult",
+        `${import.meta.env.VITE_BACKEND_USER_URL}/api/result/addResult`,
         payload,
         {
           headers: {
@@ -121,6 +121,13 @@ function ResultData() {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <button
+        onClick={() => window.history.back()}
+        className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out shadow-md active:scale-95"
+      >
+        ← Go Back
+      </button>
+
       <div className="text-center mb-8 bg-white p-6 rounded-lg shadow-md">
         <h1 className="text-3xl font-bold mb-6">Exam Results Entry</h1>
 
