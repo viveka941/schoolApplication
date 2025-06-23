@@ -35,13 +35,15 @@ function AddTeacher() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <button
-        onClick={() => window.history.back()}
-        className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out shadow-md active:scale-95"
-      >
-        ← Go Back
-      </button>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
+      <div className="w-full max-w-md mb-4">
+        <button
+          onClick={() => window.history.back()}
+          className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out shadow-md active:scale-95"
+        >
+          ← Go Back
+        </button>
+      </div>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
