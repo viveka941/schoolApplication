@@ -43,7 +43,7 @@ export default function Navbar() {
           <Link to="/about">About </Link>
           <Link to="/compus">Campus</Link>
           <Link to="/contact">Contact</Link>
-          <Link to="#">Blog ✶</Link>
+          <Link to="/paragliding">Blog ✶</Link>
 
           <Button
             onClick={() => navigate("/login")}
