@@ -23,6 +23,10 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
+app.get("/",(req,res)=>{
+  res.send({site : "this is backend server is running"})
+})
+
 app.use("/api/user", userRoute);
 app.use("/api/student", studentRoute);
 app.use("/api/teacher", teacherRoute);
