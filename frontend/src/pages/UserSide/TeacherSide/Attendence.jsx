@@ -5,12 +5,12 @@ import { useNavigate, useParams } from "react-router-dom";
 
 function Attendence() {
   const [allList, setAllList] = useState([]);
-  const [classId ,setClassId] = useState()
-  const [message,setMessage] = useState('')
-  const navigate = useNavigate()
- 
-  const {className}= useParams();
- 
+  const [classId, setClassId] = useState();
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+
+  const { className } = useParams();
+
   useEffect(() => {
     async function AllStudent() {
       try {
@@ -19,10 +19,8 @@ function Attendence() {
             import.meta.env.VITE_BACKEND_USER_URL
           }/api/class/allStudent/${className}`
         );
-        setClassId(res.data.classId)
+        setClassId(res.data.classId);
         setAllList(res.data.list);
-      
-      
       } catch (error) {
         setMessage(res.data.message || "Error fetching student list");
         console.log("Error fetching student list:", error);
@@ -40,11 +38,11 @@ function Attendence() {
 
   const onSubmit = async (data) => {
     const formattedData = {
-      classId: classId, 
+      classId: classId,
       date: new Date(),
       allStudentList: allList.map((student) => ({
         studentId: student._id,
-        status: data[`status_${student._id}`], 
+        status: data[`status_${student._id}`],
       })),
     };
 
@@ -52,15 +50,14 @@ function Attendence() {
 
     try {
       const res = await axios.post(
-       `${import.meta.env.VITE_BACKEND_USER_URL}/api/attendence/addAttendence`,
+        `${import.meta.env.VITE_BACKEND_USER_URL}/api/attendence/addAttendence`,
         formattedData
       );
       alert("Attendence mark done");
       console.log("Saved:", res.data);
       if (res.data.success) {
         alert(res.data.message);
-       
-        
+        navigate(-1);
       }
       reset();
     } catch (error) {

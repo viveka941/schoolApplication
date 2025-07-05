@@ -66,25 +66,25 @@ function ClassWiseData() {
 
 
   return (
-    <div className="p-6">
+    <div className="p-4 sm:p-6">
       <button
         onClick={() => window.history.back()}
-        className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out shadow-md active:scale-95"
+        className="w-full sm:w-auto mb-4 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300 shadow-md active:scale-95"
       >
         ← Go Back
       </button>
 
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 gap-4">
         <h1 className="text-2xl font-bold text-gray-800">
           Class-wise Student Data
         </h1>
 
-        <div className="flex items-center space-x-4">
-          <div className="relative">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          <div className="relative w-full sm:w-64">
             <input
               type="text"
               placeholder="Search students..."
-              className="pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="pl-10 pr-4 py-2 border rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -105,7 +105,7 @@ function ClassWiseData() {
           </div>
 
           <select
-            className="px-4 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full sm:w-44 px-4 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             value={selectedClass}
             onChange={(e) => setSelectedClass(e.target.value)}
           >
@@ -118,80 +118,77 @@ function ClassWiseData() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow overflow-hidden">
-        <table className="min-w-full divide-y divide-gray-200">
+      {/* Responsive Table Wrapper */}
+      <div className="overflow-x-auto bg-white rounded-xl shadow">
+        <table className="min-w-full divide-y divide-gray-200 text-sm">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-4 py-3 text-left font-medium text-gray-600 uppercase">
                 Roll No.
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Student Name
+              <th className="px-4 py-3 text-left font-medium text-gray-600 uppercase">
+                Name
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-4 py-3 text-left font-medium text-gray-600 uppercase">
                 Contact
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-4 py-3 text-left font-medium text-gray-600 uppercase">
                 Email
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-4 py-3 text-left font-medium text-gray-600 uppercase">
                 Attendance
               </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-4 py-3 text-right font-medium text-gray-600 uppercase">
                 Actions
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="divide-y divide-gray-100">
             {filteredStudents.length > 0 ? (
               filteredStudents.map((student) => (
                 <tr
                   key={student.id}
+                  className="hover:bg-gray-50 cursor-pointer"
                   onClick={() => navigate(`/studentProfile/${student.roll}`)}
-                  className="hover:bg-gray-50"
                 >
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">
-                      {student.roll}
-                    </div>
+                  <td className="px-4 py-3 whitespace-nowrap">
+                    {student.roll}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div className="bg-gray-200 border-2 border-dashed rounded-xl w-10 h-10" />
-                      <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-gray-200 rounded-full border-2 border-dashed" />
+                      <div>
+                        <div className="font-semibold text-gray-900">
                           {student.name}
                         </div>
-                        <div className="text-sm text-gray-500">
+                        <div className="text-gray-500 text-xs">
                           {selectedClass}
                         </div>
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {student.phone}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-500 hover:underline">
+                  <td className="px-4 py-3 text-gray-600">{student.phone}</td>
+                  <td className="px-4 py-3 text-blue-600 underline">
                     <a href={`mailto:${student.email}`}>{student.email}</a>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-4 py-3">
                     <div className="flex items-center">
-                      <div className="w-24 bg-gray-200 rounded-full h-2.5 mr-2">
+                      <div className="w-24 h-2.5 bg-gray-200 rounded-full mr-2">
                         <div
-                          className="bg-green-600 h-2.5 rounded-full"
+                          className="h-2.5 bg-green-600 rounded-full"
                           style={{ width: student.attendance }}
-                        ></div>
+                        />
                       </div>
-                      <span className="text-sm font-medium text-gray-700">
+                      <span className="text-gray-700">
                         {student.attendance}
                       </span>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button className="text-blue-600 hover:text-blue-900 mr-3">
+                  <td className="px-4 py-3 text-right whitespace-nowrap">
+                    <button className="text-blue-600 hover:text-blue-800 mr-2">
                       Edit
                     </button>
-                    <button className="text-red-600 hover:text-red-900">
+                    <button className="text-red-600 hover:text-red-800">
                       Delete
                     </button>
                   </td>
@@ -199,10 +196,7 @@ function ClassWiseData() {
               ))
             ) : (
               <tr>
-                <td
-                  colSpan="6"
-                  className="px-6 py-4 text-center text-sm text-gray-500"
-                >
+                <td colSpan="6" className="px-4 py-6 text-center text-gray-500">
                   No students found matching your search
                 </td>
               </tr>
@@ -211,23 +205,24 @@ function ClassWiseData() {
         </table>
       </div>
 
-      <div className="mt-6 flex items-center justify-between">
+      {/* Footer Buttons */}
+      <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
         <div className="text-sm text-gray-500">
           Showing {filteredStudents.length} of{" "}
           {classData[selectedClass]?.length || 0} students in {selectedClass}
         </div>
 
-        <div className="flex space-x-2">
+        <div className="flex flex-wrap gap-2">
           <button
             onClick={() => navigate("/cashier")}
-            className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300"
+            className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 text-sm"
           >
             Home
           </button>
-          <button className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
+          <button className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 text-sm">
             Previous
           </button>
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
             Next
           </button>
         </div>

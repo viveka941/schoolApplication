@@ -11,12 +11,7 @@ function StudentResult() {
   if (studentResults.length === 0) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <button
-          onClick={() => window.history.back()}
-          className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out shadow-md active:scale-95"
-        >
-          ← Go Back
-        </button>
+      
 
         <div className="bg-white rounded-xl shadow-md p-8 max-w-md w-full text-center">
           <div className="text-6xl mb-4">📭</div>

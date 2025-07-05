@@ -198,9 +198,9 @@ function ResultData() {
             <table className="min-w-full bg-white">
               <thead className="bg-gray-200">
                 <tr>
-                  <th className="py-3 px-4 text-left">ID</th>
-                  <th className="py-3 px-4 text-left">Student Name</th>
                   <th className="py-3 px-4 text-center">Roll No</th>
+                  <th className="py-3 px-4 text-left">Student Name</th>
+                  <th className="py-3 px-4 text-left">ID</th>
                   <th className="py-3 px-4 text-center">
                     Obtain Viva Mark (20-50)
                   </th>
