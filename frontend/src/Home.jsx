@@ -89,16 +89,16 @@ const Home = () => {
 
   // Top Students data
   const topStudents = [
-    { name: "Amit Sharma", grade: 5, percentage: 92 },
-    { name: "Priya Patel", grade: 7, percentage: 95 },
-    { name: "Rahul Verma", grade: 6, percentage: 89 },
-    { name: "Sneha Gupta", grade: 8, percentage: 91 },
-    { name: "Arjun Kumar", grade: 5, percentage: 87 },
-    { name: "Neha Singh", grade: 7, percentage: 93 },
-    { name: "Vikram Joshi", grade: 6, percentage: 90 },
-    { name: "Ananya Reddy", grade: 8, percentage: 94 },
-    { name: "Karan Malhotra", grade: 5, percentage: 88 },
-    { name: "Isha Choudhary", grade: 7, percentage: 96 },
+    { name: "Amit Sharma", grade: 5, percentage: 92, year: 2024 },
+    { name: "Priya Patel", grade: 7, percentage: 95, year: 2024 },
+    { name: "Rahul Verma", grade: 6, percentage: 89, year: 2024 },
+    { name: "Sneha Gupta", grade: 8, percentage: 91, year: 2024 },
+    { name: "Arjun Kumar", grade: 5, percentage: 87, year: 2024 },
+    { name: "Neha Singh", grade: 7, percentage: 93, year: 2024 },
+    { name: "Vikram Joshi", grade: 6, percentage: 90 ,year : 2024},
+    { name: "Ananya Reddy", grade: 8, percentage: 94 ,year : 2024},
+    { name: "Karan Malhotra", grade: 5, percentage: 88,year : 2024 },
+    { name: "Isha Choudhary", grade: 7, percentage: 96,year : 2024 },
   ];
 
   // Services data
@@ -251,6 +251,7 @@ const Home = () => {
                 <th className="py-4 px-6 text-left">Student Name</th>
                 <th className="py-4 px-6 text-left">Class</th>
                 <th className="py-4 px-6 text-left">Percentage</th>
+                <th className="py-4 px-6 text-left">Year</th>
               </tr>
             </thead>
             <tbody>
@@ -282,6 +283,9 @@ const Home = () => {
                         ></div>
                       </div>
                     </div>
+                  </td>
+                  <td className="py-4 px-6 text-gray-700">
+                     {student.year}
                   </td>
                 </tr>
               ))}
