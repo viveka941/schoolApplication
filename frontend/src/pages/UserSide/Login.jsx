@@ -21,7 +21,9 @@ function Login() {
         `${import.meta.env.VITE_BACKEND_USER_URL}/api/user/userlogin`,
         data,
         {
+          withCredentials: true,
           headers: {
+            
             "Content-Type": "application/json",
           },
         }
@@ -30,6 +32,8 @@ function Login() {
       if (res.data.success) {
         // Save user data
         localStorage.setItem("user", JSON.stringify(res.data.user));
+        localStorage.setItem("token", res.data.token);
+        console.log(res.data.token);
         const role = res.data.user.role;
         const id = res.data.user._id;
         console.log(id);
@@ -62,7 +66,7 @@ function Login() {
       }
     } catch (error) {
       console.error("Login failed:", error.response?.data || error.message);
-      alert("Invalid credentials or server error!");
+      alert(error.response?.data.message);
     } finally {
       setLoading(false);
     }

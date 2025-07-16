@@ -114,8 +114,18 @@ function StudentDashboard() {
   useEffect(() => {
     async function Student() {
       try {
+          const token = localStorage.getItem("token");
+          if (!token) {
+            navigate("/login")
+          }
         const res = await axios.get(
-          `${import.meta.env.VITE_BACKEND_USER_URL}/api/user/getUserData/${id}`
+          `${import.meta.env.VITE_BACKEND_USER_URL}/api/user/getUserData/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
         );
 
         setAllStDetails({ ...res.data.user, ...res.data.allData });
@@ -233,11 +243,17 @@ function StudentDashboard() {
   useEffect(() => {
     async function getResult(name, className) {
       try {
+        const token = localStorage.getItem("token")
+        if(!token){
+           console.error("No token found!");
+           return;
+        }
         const res = await axios.post(
           `${import.meta.env.VITE_BACKEND_USER_URL}/api/result/stData`,
           { name, className },
           {
             headers: {
+              Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
           }

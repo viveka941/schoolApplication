@@ -9,6 +9,8 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+    lowercase: true, // ✅ Correct key
+    trim: true,
   },
   password: {
     type: String,
@@ -16,7 +18,7 @@ const userSchema = mongoose.Schema({
   },
   role: {
     type: String,
-    enum:["Student","Teacher","Staff","Counsellor"],
+    enum: ["Student", "Teacher", "Staff", "Counsellor"],
     required: true,
   },
 });

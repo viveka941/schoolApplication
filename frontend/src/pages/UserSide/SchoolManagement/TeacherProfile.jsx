@@ -37,8 +37,19 @@ function TeacherProfile() {
   useEffect(() => {
     const allData = async () => {
       try {
+        const token = localStorage.getItem("token"); // Ensure token is fetched inside the effect
+        if (!token) {
+          console.error("No token found!");
+          return;
+        }
         const res = await axios.get(
-          `${import.meta.env.VITE_BACKEND_USER_URL}/api/user/getUserData/${id}`
+          `${import.meta.env.VITE_BACKEND_USER_URL}/api/user/getUserData/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
         );
         setallTeacherData({ ...res.data.user, ...res.data.allData });
       } catch (error) {
@@ -414,7 +425,7 @@ function TeacherProfile() {
           </div>
         </div>
       </div>
-     
+
       <br />
       <div className="flex space-x-2">
         <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center">
